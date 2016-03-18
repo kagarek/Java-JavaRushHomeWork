@@ -65,23 +65,41 @@ public class Model
     }
 
     public boolean checkBoxCollision(Direction direction) {
+        Player player = gameObjects.getPlayer();
+        Set<Box> boxes = gameObjects.getBoxes();
 
-        /*
-15.2.	boolean checkBoxCollision(Direction direction). Этот метод проверяет
-столкновение с ящиками. Метод должен:
+        for (Box b : boxes){
+            if (player.isCollision(b,direction))
+            {
+                if (checkWallCollision(b, direction)) return true;
 
-15.2.1.	Вернуть true, если игрок не может быть сдвинут в направлении direction (там
-находится: или ящик, за которым стена; или ящик за которым еще один ящик).
+                for (Box b1 : boxes)
+                    if (b.isCollision(b1,direction)) return true;
 
-15.2.2.	Вернуть false, если игрок может быть сдвинут в направлении direction (там
-находится: или свободная ячейка; или дом; или ящик, за которым свободная
-ячейка или дом). При это, если на пути есть ящик, который может быть сдвинут, то
-необходимо переместить этот ящик на новые координаты. Обрати внимание, что
-все объекты перемещаются на фиксированное значение FIELD_SELL_SIZE, не
-зависящее от размеров объекта, которые используются для его отрисовки.
-Подсказка: для определения столкновений используй методы isCollision() игровых
-объектов и метод checkWallCollision() модели.
-         */
+                switch (direction) {
+                    case LEFT:
+                        b.move(-FIELD_SELL_SIZE,0);
+                        player.move(-FIELD_SELL_SIZE,0);
+                        break;
+                    case RIGHT:
+                        b.move(FIELD_SELL_SIZE,0);
+                        player.move(FIELD_SELL_SIZE,0);
+                        break;
+                    case UP:
+                        b.move(0,-FIELD_SELL_SIZE);
+                        player.move(0,-FIELD_SELL_SIZE);
+                        break;
+                    case DOWN:
+                        b.move(0,FIELD_SELL_SIZE);
+                        player.move(0,FIELD_SELL_SIZE);
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        }
+
         return false;
     }
 

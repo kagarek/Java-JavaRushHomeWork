@@ -38,7 +38,7 @@ public class Controller implements EventListener
     @Override
     public void restart()
     {
-model.restart();
+        model.restart();
         view.update();
     }
 

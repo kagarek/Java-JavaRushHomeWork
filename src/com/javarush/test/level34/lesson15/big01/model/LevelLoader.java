@@ -14,18 +14,38 @@ public class LevelLoader
     }
 
     public GameObjects getLevel(int level) {
+        Player player = new Player(16*Model.FIELD_SELL_SIZE/2,16*Model.FIELD_SELL_SIZE/2);
         Set<Wall> walls = new HashSet<>();
         Set<Box> boxes = new HashSet<>();
         Set<Home> homes = new HashSet<>();
-        Player player = new Player(Model.FIELD_SELL_SIZE/2,Model.FIELD_SELL_SIZE/2);
-        walls.add(new Wall(Model.FIELD_SELL_SIZE/2,Model.FIELD_SELL_SIZE/2));
-        walls.add(new Wall(Model.FIELD_SELL_SIZE/2,Model.FIELD_SELL_SIZE/2));
-        walls.add(new Wall(Model.FIELD_SELL_SIZE/2,Model.FIELD_SELL_SIZE/2));
-        boxes.add(new Box(Model.FIELD_SELL_SIZE/2,Model.FIELD_SELL_SIZE/2));
-        homes.add(new Home(Model.FIELD_SELL_SIZE/2,Model.FIELD_SELL_SIZE/2));
 
-        GameObjects gameObjects = new GameObjects(walls,boxes,homes,player);
+        walls.add(new Wall(2*Model.FIELD_SELL_SIZE/2,20*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(8*Model.FIELD_SELL_SIZE/2,20*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(14*Model.FIELD_SELL_SIZE/2,20*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(20*Model.FIELD_SELL_SIZE/2,20*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(26*Model.FIELD_SELL_SIZE/2,20*Model.FIELD_SELL_SIZE/2));
 
-        return gameObjects;
+        walls.add(new Wall(4*Model.FIELD_SELL_SIZE/2,10*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(10*Model.FIELD_SELL_SIZE/2,10*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(16*Model.FIELD_SELL_SIZE/2,10*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(22*Model.FIELD_SELL_SIZE/2,10*Model.FIELD_SELL_SIZE/2));
+
+        walls.add(new Wall(2*Model.FIELD_SELL_SIZE/2,18*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(2*Model.FIELD_SELL_SIZE/2,16*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(2*Model.FIELD_SELL_SIZE/2,14*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(2*Model.FIELD_SELL_SIZE/2,12*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(2*Model.FIELD_SELL_SIZE/2,10*Model.FIELD_SELL_SIZE/2));
+
+        walls.add(new Wall(26*Model.FIELD_SELL_SIZE/2,18*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(26*Model.FIELD_SELL_SIZE/2,16*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(26*Model.FIELD_SELL_SIZE/2,14*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(26*Model.FIELD_SELL_SIZE/2,12*Model.FIELD_SELL_SIZE/2));
+        walls.add(new Wall(26*Model.FIELD_SELL_SIZE/2,10*Model.FIELD_SELL_SIZE/2));
+
+        boxes.add(new Box(12*Model.FIELD_SELL_SIZE/2,12*Model.FIELD_SELL_SIZE/2));
+
+        homes.add(new Home(18*Model.FIELD_SELL_SIZE/2,14*Model.FIELD_SELL_SIZE/2));
+
+        return new GameObjects(walls,boxes,homes,player);
     }
 }

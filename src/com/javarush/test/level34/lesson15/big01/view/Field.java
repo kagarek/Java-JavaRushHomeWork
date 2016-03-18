@@ -26,7 +26,7 @@ public class Field extends JPanel
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
         g.fillRect(0, 0, view.getWidth(), view.getHeight());
         GameObjects gameObjects = view.getGameObjects();
         Set<GameObject> gameObjectSet = gameObjects.getAll();

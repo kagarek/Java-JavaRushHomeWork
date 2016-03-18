@@ -22,7 +22,7 @@ public class Player extends CollisionObject implements Movable
     @Override
     public void move(int x, int y)
     {
-        this.setX(this.getX()+x);
-        this.setY(this.getY()+y);
+        setX(this.getX()+x);
+        setY(this.getY()+y);
     }
 }

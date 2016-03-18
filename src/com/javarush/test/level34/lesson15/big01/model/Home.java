@@ -15,7 +15,7 @@ public class Home extends GameObject
     @Override
     public void draw(Graphics graphics)
     {
-        graphics.setColor(Color.ORANGE);
+        graphics.setColor(Color.RED);
         graphics.drawOval(getX(),getY(),getWidth(),getHeight());
     }
 }
