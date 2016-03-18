@@ -1,0 +1,121 @@
+package com.javarush.test.level22.lesson09.task03;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+
+/* Составить цепочку слов
+В методе main считайте с консоли имя файла, который содержит слова, разделенные пробелом.
+В методе getLine используя StringBuilder расставить все слова в таком порядке,
+чтобы последняя буква данного слова совпадала с первой буквой следующего не учитывая регистр.
+Каждое слово должно участвовать 1 раз.
+Метод getLine должен возвращать любой вариант.
+Слова разделять пробелом.
+В файле не обязательно будет много слов.
+
+Пример тела входного файла:
+Киев Нью-Йорк Амстердам Вена Мельбурн
+
+Результат:
+Амстердам Мельбурн Нью-Йорк Киев Вена
+*/
+public class Solution {
+    public static StringBuilder getLine(String... words) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        if (words == null || words.length == 0)
+            return stringBuilder;
+
+        if (words.length == 0)
+            return new StringBuilder(words[0]);
+
+        for (int i = 0; i < words.length; i++)
+            if (words[i] != null && !words[i].equals(""))
+                arrayList.add(words[i]);
+
+        if (arrayList.isEmpty())
+            return new StringBuilder("Нет последовательности");
+
+        Collections.sort(arrayList);
+
+        ArrayList<String> usedWords = new ArrayList<>();
+        ArrayList<String> unUsedWords = (ArrayList<String>) arrayList.clone();
+
+        for (int i = 0; i < arrayList.size(); i++)
+        {
+            String word = arrayList.get(i);
+            usedWords.add(word);
+            unUsedWords.remove(word);
+
+            getNextWord(usedWords, unUsedWords);
+
+            if (usedWords.size() == arrayList.size())
+                break;
+            else
+            {
+                usedWords.clear();
+                unUsedWords = (ArrayList<String>) arrayList.clone();
+            }
+        }
+
+        if (usedWords.size() != arrayList.size())
+            return new StringBuilder("Нет последовательности");
+
+        for (int i = 0; i < usedWords.size(); i++)
+        {
+            stringBuilder.append(usedWords.get(i));
+            if (i!=usedWords.size()-1)
+                stringBuilder.append(" ");
+        }
+
+        return stringBuilder;
+    }
+
+    public static void getNextWord(ArrayList<String> usedWords, ArrayList<String> unUsedWords)
+    {
+        String nextWord = usedWords.get(usedWords.size()-1);
+        String nextWordLastLetter = nextWord.substring(nextWord.length()-1, nextWord.length());
+
+        for (int i = 0; i < unUsedWords.size(); i++)
+            if (unUsedWords.get(i).substring(0,1).toLowerCase().equals(nextWordLastLetter.toLowerCase()))
+            {
+                usedWords.add(unUsedWords.get(i));
+                unUsedWords.remove(i);
+                getNextWord(usedWords,unUsedWords);
+            }
+    }
+
+    public static void main(String[] args) {
+        try
+        {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            //String fileName = bufferedReader.readLine();
+            String fileName = "resources/level22/level22_lesson09_task03.txt";
+            BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            while ((line=fileReader.readLine())!=null)
+            {
+                String[] words = line.trim().split(" ");
+                StringBuilder result = getLine(words);
+                System.out.println(result.toString());
+            }
+
+            StringBuilder result = getLine(new String[] {null,"",""});
+            System.out.println("new String[] {null,\"\",\"\"} "+result.toString());
+
+            StringBuilder result1 = getLine(null);
+            System.out.println("null "+result1.toString());
+
+            fileReader.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+}

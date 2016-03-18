@@ -1,0 +1,84 @@
+public static void main(String[] args)
+    {
+        String filePath = args[0];
+        String zipPath = args[1];
+
+        Map<String, byte[]> zipEntryMap = convertArchiveToMap(zipPath);
+        byte[] inputFileBytes = convertFileToBytes(filePath);
+
+        File fileToArchive = new File(filePath);
+
+        if (zipEntryMap.containsKey(fileToArchive.getName()))
+            zipEntryMap.remove(fileToArchive.getName());
+
+        zipEntryMap.put("new/" + fileToArchive.getName(), inputFileBytes);
+
+        writeEntriesToArchive(zipEntryMap, zipPath);
+
+    }
+
+    public static byte[] convertFileToBytes(String filePath)
+    {
+        byte[] bytes = null;
+
+        try (FileInputStream fileInputStream = new FileInputStream(filePath))
+        {
+            int len = fileInputStream.available();
+            bytes = new byte[len];
+            fileInputStream.read(bytes);
+        }
+        catch (Exception e) { e.printStackTrace(); }
+
+        return bytes;
+    }
+
+    public static Map<String, byte[]> convertArchiveToMap(String zipPath)
+    {
+        Map<String, byte[]> zipEntryMap = new HashMap<>();
+
+        try (ZipFile zipFile = new ZipFile(zipPath))
+        {
+            Enumeration<? extends ZipEntry> zipEntryEnumeration = zipFile.entries();
+            while (zipEntryEnumeration.hasMoreElements())
+            {
+                ZipEntry zipEntry = zipEntryEnumeration.nextElement();
+
+                if (zipEntry.isDirectory())
+                {
+                    zipEntryMap.put(zipEntry.getName(), null);
+                    continue;
+                }
+
+                InputStream inputStream = zipFile.getInputStream(zipEntry);
+                int len1 = inputStream.available();
+                byte[] buffer = new byte[len1];
+                inputStream.read(buffer);
+                inputStream.close();
+                zipEntryMap.put(zipEntry.getName(), buffer);
+            }
+        }
+        catch (Exception e) { e.printStackTrace(); }
+
+        return zipEntryMap;
+    }
+
+    public static void writeEntriesToArchive(Map<String, byte[]> zipEntryMap, String zipPath)
+    {
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipPath)))
+        {
+            for (Map.Entry<String, byte[]> e : zipEntryMap.entrySet())
+            {
+                zipOutputStream.putNextEntry(new ZipEntry(e.getKey()));
+                if (e.getValue() != null)
+                {
+                    zipOutputStream.write(e.getValue());
+                    zipOutputStream.flush();
+                }
+                zipOutputStream.closeEntry();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }

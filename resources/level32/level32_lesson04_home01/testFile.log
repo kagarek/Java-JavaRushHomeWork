@@ -1,0 +1,4 @@
+at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>()
+	at java.io.FileInputStream.<init>()
+	at com.javarush.test.level32.lesson04

@@ -1,0 +1,2 @@
+3. Внутри класса Solution создай нить public static ReadFileThread, которая реализует
+интерфейс ReadFileInterface (Подумай, что больше подходит - Thread или Runnable).

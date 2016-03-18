@@ -1,0 +1,4 @@
+n Standard, : " Code for Information Interchange. Computers can
+only? understand numbers, so an ASCII code is the numerical
+!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+representation of a character. such as 'a' or '@'.

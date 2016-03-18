@@ -1,0 +1,1 @@
+This is file_more_50_3.txt. It's size more than 50 bytes

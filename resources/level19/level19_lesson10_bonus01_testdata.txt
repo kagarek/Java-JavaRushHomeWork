@@ -1,0 +1,28 @@
+file1: 1 4 5
+file2: 2 1 3 4 5 6
+output: А2 S1 A3 S4 S5 A6
+PASS
+
+file1: 1 2 3
+file2: 1 3 4
+ouput: S1 R2 S3 A4
+PASS
+
+file1: 1 1
+file2: 1 2 1
+ouput: S1 A2 S1
+PASS
+
+file1: 1 2 1
+file2: 2 3 1 4
+ouput: R1 S2 A3 S1 A4
+PASS
+
+file1: 1 2 3 4
+file2: 1 3
+ouput: S1 R2 S3 R4
+PASS
+
+file1: 1 2 3 5
+file2: 0 1 3 4 5 6
+ouput: A0 S1 R2 S3 A4 S5 A6
