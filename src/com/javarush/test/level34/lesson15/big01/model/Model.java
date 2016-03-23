@@ -15,7 +15,7 @@ public class Model
     EventListener eventListener;
     GameObjects gameObjects;
     int currentLevel = 1;
-    LevelLoader levelLoader = new LevelLoader(Paths.get("../res/levels.txt"));
+    LevelLoader levelLoader = new LevelLoader(Paths.get("src/com/javarush/test/level34/lesson15/big01/res/levels.txt"));
 
     public void setEventListener(EventListener eventListener) {
         this.eventListener = eventListener;
@@ -45,21 +45,32 @@ public class Model
 
     public void move(Direction direction) {
         Player player = gameObjects.getPlayer();
-        if (checkWallCollision(player,direction)) return;
-        if (checkBoxCollision(direction)) return;
-        switch (direction) {
-            case LEFT: player.move(-FIELD_SELL_SIZE,0); break;
-            case RIGHT: player.move(FIELD_SELL_SIZE,0); break;
-            case UP: player.move(0,-FIELD_SELL_SIZE); break;
-            case DOWN: player.move(0,FIELD_SELL_SIZE); break;
-            default:break;
+        if (!checkWallCollision(player,direction) && !checkBoxCollision(direction))
+        {
+            switch (direction)
+            {
+                case LEFT:
+                    player.move(-FIELD_SELL_SIZE, 0);
+                    break;
+                case RIGHT:
+                    player.move(FIELD_SELL_SIZE, 0);
+                    break;
+                case UP:
+                    player.move(0, -FIELD_SELL_SIZE);
+                    break;
+                case DOWN:
+                    player.move(0, FIELD_SELL_SIZE);
+                    break;
+                default:
+                    break;
+            }
+            checkCompletion();
         }
-        checkCompletion();
     }
 
     public boolean checkWallCollision(CollisionObject gameObject, Direction direction) {
-        for (CollisionObject g : gameObjects.getWalls())
-            if (gameObject.isCollision(g,direction))
+        for (CollisionObject wall : gameObjects.getWalls())
+            if (gameObject.isCollision(wall,direction))
                 return true;
         return false;
     }
@@ -79,24 +90,21 @@ public class Model
                 switch (direction) {
                     case LEFT:
                         b.move(-FIELD_SELL_SIZE,0);
-                        player.move(-FIELD_SELL_SIZE,0);
                         break;
                     case RIGHT:
                         b.move(FIELD_SELL_SIZE,0);
-                        player.move(FIELD_SELL_SIZE,0);
                         break;
                     case UP:
                         b.move(0,-FIELD_SELL_SIZE);
-                        player.move(0,-FIELD_SELL_SIZE);
                         break;
                     case DOWN:
                         b.move(0,FIELD_SELL_SIZE);
-                        player.move(0,FIELD_SELL_SIZE);
                         break;
                     default:
                         break;
                 }
-                return false;
+
+                break;
             }
         }
 
@@ -113,7 +121,7 @@ public class Model
                 if (h.getX() == b.getX() && h.getY() == b.getY())
                     properPositions++;
 
-        if (properPositions == homes.size() && properPositions == boxes.size())
+        if (properPositions == homes.size())
             eventListener.levelCompleted(currentLevel);
     }
 }
