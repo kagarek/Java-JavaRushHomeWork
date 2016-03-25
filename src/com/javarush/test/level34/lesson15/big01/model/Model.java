@@ -22,12 +22,6 @@ public class Model
     }
 
     public GameObjects getGameObjects() {
-        gameObjects = new GameObjects(
-                levelLoader.getLevel(currentLevel).getWalls(),
-                levelLoader.getLevel(currentLevel).getBoxes(),
-                levelLoader.getLevel(currentLevel).getHomes(),
-                levelLoader.getLevel(currentLevel).getPlayer()
-                );
         return gameObjects;
     }
     public void restartLevel(int level){

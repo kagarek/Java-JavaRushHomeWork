@@ -42,10 +42,8 @@ public class Field extends JPanel
     public static class KeyHandler extends KeyAdapter
     {
         private Field field;
+        public KeyHandler(Field field){ this.field = field; }
 
-        public KeyHandler(Field field){
-            this.field = field;
-        }
         @Override
         public void keyPressed(KeyEvent e)
         {
@@ -71,7 +69,8 @@ public class Field extends JPanel
                     field.eventListener.restart();
                     break;
                 }
-                default: break;
+                default:
+                    break;
             }
         }
     }

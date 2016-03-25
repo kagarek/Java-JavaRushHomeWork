@@ -47,37 +47,44 @@ public class LevelLoader
             {
                 line = bufferedReader.readLine();
                 objects = line.split("");
-                if (objects.length==0) continue;
 
-                int x = x0;
+                //if (objects.length==0) continue;
+                //int x = x0;
 
-                for (int i = 0; i < objects.length; i++)
+                for (int cols = 0; cols < objects.length; cols++)
                 {
-                    String figure = objects[i];
+                    String figure = objects[cols];
                     switch (figure) {
                         case "X": {
-                            walls.add(new Wall(x,y0));
+                            walls.add(new Wall(x0 + Model.FIELD_SELL_SIZE * cols, y0 + Model.FIELD_SELL_SIZE * rows));
+                            //walls.add(new Wall(x,y0));
                             break;
                         }
                         case "*": {
-                            boxes.add(new Box(x,y0));
+                            boxes.add(new Box(x0 + Model.FIELD_SELL_SIZE * cols, y0 + Model.FIELD_SELL_SIZE * rows));
+                            //boxes.add(new Box(x,y0));
                             break;
                         }
                         case ".": {
-                            homes.add(new Home(x,y0));
+                            homes.add(new Home(x0 + Model.FIELD_SELL_SIZE * cols, y0 + Model.FIELD_SELL_SIZE * rows));
+                            //homes.add(new Home(x,y0));
                             break;
                         }
                         case "&": {
-                            boxes.add(new Box(x,y0));
-                            homes.add(new Home(x,y0));
+                            boxes.add(new Box(x0 + Model.FIELD_SELL_SIZE * cols, y0 + Model.FIELD_SELL_SIZE * rows));
+                            homes.add(new Home(x0 + Model.FIELD_SELL_SIZE * cols, y0 + Model.FIELD_SELL_SIZE * rows));
+                            //boxes.add(new Box(x,y0));
+                            //homes.add(new Home(x,y0));
                             break;
                         }
                         case "@": {
-                            player = new Player(x,y0); break;}
+                            player = new Player(x0 + Model.FIELD_SELL_SIZE * cols,y0 + Model.FIELD_SELL_SIZE * rows);
+                            break;
+                        }
                     }
-                    x = x + Model.FIELD_SELL_SIZE;
+                    //x = x + Model.FIELD_SELL_SIZE;
                 }
-                y0 = y0 + Model.FIELD_SELL_SIZE;
+                //y0 = y0 + Model.FIELD_SELL_SIZE;
             }
 
         }

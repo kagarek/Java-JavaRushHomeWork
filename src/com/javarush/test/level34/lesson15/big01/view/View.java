@@ -29,7 +29,9 @@ public class View extends JFrame {
         field.setEventListener(eventListener);
     }
 
-    public void update(){ field.repaint(); }
+    public void update(){
+        field.repaint();
+    }
 
     public GameObjects getGameObjects(){
         return controller.getGameObjects();
