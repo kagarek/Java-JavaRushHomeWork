@@ -44,6 +44,7 @@ public class Solution {
         String rLeftGap = "[\\(]{1}";
         String rRightGap = "[\\)]{1}";
         String rDoubleDigit = "[\\-]?[0-9]{1,}[\\.?0-9]{0,}";
+        String rDoubleDigit_positive = "[0-9]{1,}[\\.?0-9]{0,}";
         String rPlus = "[\\+]{1}";
         String rMinus = "[\\-]{1}";
         String rMultiply = "[\\*]{1}";
@@ -72,7 +73,7 @@ public class Solution {
         patterns[8] = new String[]{"/",     rDoubleDigit+rDivide+rDoubleDigit};
         patterns[9] = new String[]{"+",     rLeftGap+rDoubleDigit+rPlus+rDoubleDigit+rRightGap};
         patterns[10] = new String[]{"-",    rLeftGap+rDoubleDigit+rMinus+rDoubleDigit+rRightGap};
-        patterns[11] = new String[]{"+",    rDoubleDigit+rPlus+rDoubleDigit};
+        patterns[11] = new String[]{"+",    rDoubleDigit_positive+rPlus+rDoubleDigit};
         patterns[12] = new String[]{"-",    rDoubleDigit+rMinus+rDoubleDigit};
         patterns[13] = new String[]{"",     rLeftGap+rDoubleDigit+rRightGap};
 
@@ -103,7 +104,7 @@ public class Solution {
         {
             // if full expression is calculated, then result is ready
             result = Double.parseDouble(cleanedExpression);
-            DecimalFormat df = new DecimalFormat("#0.00");
+            DecimalFormat df = new DecimalFormat("#0.00") ;
             System.out.println(df.format(result) + " " + countOperation);
         }
         catch (Exception e)
@@ -175,7 +176,7 @@ public class Solution {
 
         countOperation++;
 
-        DecimalFormat df = new DecimalFormat("####0.00");
+        DecimalFormat df = new DecimalFormat("#0.##");
         resultArray[0] = df.format(result);
         resultArray[1] = String.valueOf(countOperation);
 
