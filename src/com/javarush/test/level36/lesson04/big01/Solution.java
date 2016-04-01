@@ -26,5 +26,6 @@ public class Solution {
         usersView.fireEventOpenUserEditForm(126);
 
         editUserView.fireEventUserDeleted(126);
+        editUserView.fireEventUserChanged("Alibaba",123,50);
     }
 }
