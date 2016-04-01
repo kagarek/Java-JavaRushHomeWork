@@ -8,6 +8,8 @@ import com.javarush.test.level36.lesson04.big01.model.ModelData;
  */
 public class EditUserView implements View
 {
+    private Controller controller;
+
     @Override
     public void refresh(ModelData modelData)
     {
@@ -19,6 +21,10 @@ public class EditUserView implements View
     @Override
     public void setController(Controller controller)
     {
+        this.controller = controller;
+    }
 
+    public void fireEventUserDeleted(long id) {
+        controller.onUserDelete(id);
     }
 }

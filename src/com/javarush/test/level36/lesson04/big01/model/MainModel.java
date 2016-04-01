@@ -1,9 +1,11 @@
 package com.javarush.test.level36.lesson04.big01.model;
 
+import com.javarush.test.level36.lesson04.big01.Util;
 import com.javarush.test.level36.lesson04.big01.bean.User;
 import com.javarush.test.level36.lesson04.big01.model.service.UserService;
 import com.javarush.test.level36.lesson04.big01.model.service.UserServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +25,8 @@ public class MainModel implements Model
     @Override
     public void loadUsers()
     {
-        List<User> users = userService.getUsersBetweenLevels(1,100);
-        modelData.setUsers(users);
         modelData.setDisplayDeletedUserList(false);
+        modelData.setUsers(getActiveUsers(userService.getUsersBetweenLevels(1,100)));
     }
 
     public void loadDeletedUsers() {
@@ -38,5 +39,15 @@ public class MainModel implements Model
         User user = userService.getUsersById(userId);
         modelData.setActiveUser(user);
         modelData.setDisplayDeletedUserList(false);
+    }
+
+    public void deleteUserById(long id){
+        User user = userService.deleteUser(id);
+        modelData.setDisplayDeletedUserList(false);
+        modelData.setUsers(getActiveUsers(userService.getUsersBetweenLevels(1,100)));
+    }
+
+    private List<User> getActiveUsers(List<User> userList){
+        return userService.filterOnlyActiveUsers(userList);
     }
 }
