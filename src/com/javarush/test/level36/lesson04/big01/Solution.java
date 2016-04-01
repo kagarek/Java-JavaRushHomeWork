@@ -3,6 +3,7 @@ package com.javarush.test.level36.lesson04.big01;
 import com.javarush.test.level36.lesson04.big01.controller.Controller;
 import com.javarush.test.level36.lesson04.big01.model.MainModel;
 import com.javarush.test.level36.lesson04.big01.model.Model;
+import com.javarush.test.level36.lesson04.big01.view.EditUserView;
 import com.javarush.test.level36.lesson04.big01.view.UsersView;
 
 public class Solution {
@@ -10,6 +11,7 @@ public class Solution {
     {
         Model model = new MainModel();
         UsersView usersView = new UsersView();
+        EditUserView editUserView = new EditUserView();
         Controller controller = new Controller();
 
         usersView.setController(controller);
@@ -18,5 +20,7 @@ public class Solution {
         controller.setUsersView(usersView);
         usersView.fireEventShowAllUsers();
         usersView.fireEventShowDeletedUsers();
+        controller.setEditUserView(editUserView);
+        usersView.fireEventOpenUserEditForm(126);
     }
 }
