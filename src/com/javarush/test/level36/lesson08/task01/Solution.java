@@ -30,7 +30,7 @@ abc
 Подсказка: использовать TreeSet
 */
 public class Solution {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String fileName = args[0];
         TreeSet<String> characterTreeSet = new TreeSet<>();
         int k = 0;
@@ -45,6 +45,7 @@ public class Solution {
                     characterTreeSet.add(symbol);
             }
         }
+        catch (IOException e) {}
 
         for (String s: characterTreeSet)
         {
