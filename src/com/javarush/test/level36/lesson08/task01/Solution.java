@@ -31,27 +31,31 @@ abc
 */
 public class Solution {
     public static void main(String[] args) {
-        String fileName = args[0];
-        TreeSet<String> characterTreeSet = new TreeSet<>();
-        int k = 0;
 
-        try (FileInputStream fileInputStream = new FileInputStream(new File(fileName)))
+        try (FileInputStream fileInputStream = new FileInputStream(new File(args[0])))
         {
-            while ( fileInputStream.available() > 0){
+            TreeSet<String> characterTreeSet = new TreeSet<>();
+
+            while (fileInputStream.available() > 0){
                 Character character = (char) fileInputStream.read();
-                String symbol = character.toString().toLowerCase();
-                Matcher m = Pattern.compile("[A-Za-z]").matcher(symbol);
+                String s = character.toString().toLowerCase();
+                Matcher m = Pattern.compile("[A-Za-z]").matcher(s);
                 if (m.find())
-                    characterTreeSet.add(symbol);
+                    characterTreeSet.add(s);
             }
-        }
-        catch (IOException e) {}
 
-        for (String s: characterTreeSet)
-        {
-            if (k < characterTreeSet.size() && k != 5)
-                System.out.print(s);
-                k++;
+            int k = 0;
+
+            for (String s: characterTreeSet)
+            {
+                if (k < characterTreeSet.size() && k < 5) {
+                    System.out.print(s);
+                    k++;
+                } else break;
+            }
+
+            fileInputStream.close();
         }
+        catch (Exception e) { e.printStackTrace(); }
     }
 }
