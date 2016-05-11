@@ -5,9 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws ClassNotFoundException {
-        Solution solution = new Solution("/Users/igormakarychev/Documents/Java projects/Java-JavaRushHomeWork/src/com/javarush/test/level36/lesson10/bonus01/data/second");
+        Solution solution = new Solution("/Users/igormakarychev/Documents/Java projects/Java-JavaRushHomeWork/out/production/JavaRushHomeWork/com/javarush/test/level36/lesson10/bonus01/data/second");
         solution.scanFileSystem();
         System.out.println(solution.getHiddenClassObjectByKey("hiddenclassimplse"));
         System.out.println(solution.getHiddenClassObjectByKey("hiddenclassimplf"));
@@ -36,11 +33,11 @@ public class Solution {
     }
 
     public void scanFileSystem() throws ClassNotFoundException {
-        String dirrectory =packageName.replaceAll("[/\\\\]",File.separator);
-        File dir = new File(dirrectory);
+        File dir = new File(packageName);
+        final String finalPath = dir.getAbsolutePath() + File.separator;
+
         String[] classFiles = dir.list();
         for (String classFile:classFiles){
-            final String finalPath = dirrectory+File.separator;
             ClassLoader loader = new ClassLoader()
             {
                 @Override
@@ -59,24 +56,28 @@ public class Solution {
             };
             String className = classFile.substring(0,classFile.lastIndexOf("."));
             Class clazz = loader.loadClass(className);
-            if (clazz.isInstance(HiddenClass.class))
-                hiddenClasses.add(clazz);
-        }
 
+            for(Class cInterface : clazz.getInterfaces()) {
+                if (cInterface.getSimpleName().equals("HiddenClass"))
+                    hiddenClasses.add(clazz);
+            }
+        }
     }
 
     public HiddenClass getHiddenClassObjectByKey(String key) {
         for(Class clazz: hiddenClasses){
-            if(clazz.getSimpleName().toLowerCase().startsWith(key)){
+            if(clazz.getSimpleName().toLowerCase().startsWith(key.toLowerCase())){
                 try
                 {
                     Constructor[] constructors = clazz.getDeclaredConstructors();
-                    constructors[0].setAccessible(true);
-                    return (HiddenClass) constructors[0].newInstance(null);
+                    for (int i = 0; i < constructors.length; i++) {
+                        if (constructors[i].getParameterCount() == 0) {
+                            constructors[i].setAccessible(true);
+                            return (HiddenClass) constructors[i].newInstance();
+                        }
+                    }
                 }
-                catch (InstantiationException e) {}
-                catch (IllegalAccessException e) {}
-                catch (InvocationTargetException e) {}
+                catch (Exception e) {}
             }
         }
         return null;
