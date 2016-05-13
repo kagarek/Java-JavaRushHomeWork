@@ -1,7 +1,9 @@
 package com.javarush.test.level36.lesson06.task01;
 
-
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,16 +24,21 @@ public class Solution {
         for (int i = 0; i < classes.length; i++) {
             Class<?> clazz = classes[i];
             int mod = clazz.getModifiers();
-            Class<?>[] interfaces = clazz.getInterfaces();
-            for (int j = 0; j < interfaces.length; j++) {
-                Class<?> intrfc = interfaces[j];
-                if (intrfc.equals(List.class) && Modifier.isPrivate(mod) && Modifier.isStatic(mod)){
+            if (Modifier.isPrivate(mod) && Modifier.isStatic(mod) && List.class.isAssignableFrom(clazz)) {
+                try {
+                    List list = (List) clazz.newInstance();
+                    list.add(new Object());
+                    list.get(0);
+                }
+                catch (IndexOutOfBoundsException e) {
                     return clazz;
+                } catch (InstantiationException e) {
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
-
         }
 
-        return null;
+        return Collections.EMPTY_LIST.getClass();
     }
 }
