@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Changelog {
     //напиши свой код
-    Revision revision();
+    Revision[] value() default {};
 }
