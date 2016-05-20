@@ -71,12 +71,14 @@ public class LogParser implements IPQuery {
                     }
                     catch (IOException e)
                     {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
                 }
             }
         }
-        catch (Exception e) {e.printStackTrace();}
+        catch (Exception e) {
+            //e.printStackTrace();
+        }
     }
 
 
