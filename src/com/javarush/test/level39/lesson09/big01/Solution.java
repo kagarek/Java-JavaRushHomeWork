@@ -22,31 +22,16 @@ public class Solution {
             e.printStackTrace();
         }
 
-        System.out.println(logParser.getNumberOfUniqueIPs(null, null));
-        System.out.println(logParser.getUniqueIPs(null, null));
-        System.out.println(logParser.getIPsForEvent(Event.DONE_TASK,null, null));
-        System.out.println(logParser.getIPsForStatus(Status.ERROR,null, null));
-        System.out.println(logParser.getIPsForUser("Eduard Petrovich Morozko",null, null));
-        System.out.println();
-
-        System.out.println(logParser.getNumberOfUniqueIPs(after, null));
-        System.out.println(logParser.getUniqueIPs(after, null));
-        System.out.println(logParser.getIPsForEvent(Event.DOWNLOAD_PLUGIN,after, null));
-        System.out.println(logParser.getIPsForStatus(Status.FAILED,after, null));
-        System.out.println(logParser.getIPsForUser("Amigo",after, null));
-        System.out.println();
-
-        System.out.println(logParser.getNumberOfUniqueIPs(null, before));
-        System.out.println(logParser.getUniqueIPs(null, before));
-        System.out.println(logParser.getIPsForEvent(Event.LOGIN,null, before));
-        System.out.println(logParser.getIPsForStatus(Status.OK,null, before));
-        System.out.println(logParser.getIPsForUser("Eduar Petrovi Morozk",null, before));
-        System.out.println();
-
-        System.out.println(logParser.getNumberOfUniqueIPs(after, before));
-        System.out.println(logParser.getUniqueIPs(after, before));
-        System.out.println(logParser.getIPsForEvent(Event.SOLVE_TASK,after, before));
-        System.out.println(logParser.getIPsForStatus(Status.OK,after, before));
-        System.out.println(logParser.getIPsForUser("Vasya Pupkin",after, before));
+        System.out.println(logParser.getAllUsers());
+        System.out.println(logParser.getNumberOfUsers(null,null));
+        System.out.println(logParser.getLoggedUsers(null,null));
+        System.out.println(logParser.getWroteMessageUsers(null,null));
+        System.out.println(logParser.getDownloadedPluginUsers(null,null));
+        System.out.println(logParser.getNumberOfUserEvents("Eduard Petrovich Morozko",null,null));
+        System.out.println(logParser.getDoneTaskUsers(null,null));
+        System.out.println(logParser.getDoneTaskUsers(null,null,15));
+        System.out.println(logParser.getSolvedTaskUsers(null,null));
+        System.out.println(logParser.getSolvedTaskUsers(null,null,1));
+        System.out.println(logParser.getUsersForIP("127.0.0.1",null,null));
     }
 }
