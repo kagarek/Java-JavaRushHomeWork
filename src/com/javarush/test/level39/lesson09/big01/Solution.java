@@ -22,16 +22,13 @@ public class Solution {
             e.printStackTrace();
         }
 
-        System.out.println(logParser.getAllUsers());
-        System.out.println(logParser.getNumberOfUsers(null,null));
-        System.out.println(logParser.getLoggedUsers(null,null));
-        System.out.println(logParser.getWroteMessageUsers(null,null));
-        System.out.println(logParser.getDownloadedPluginUsers(null,null));
-        System.out.println(logParser.getNumberOfUserEvents("Eduard Petrovich Morozko",null,null));
-        System.out.println(logParser.getDoneTaskUsers(null,null));
-        System.out.println(logParser.getDoneTaskUsers(null,null,15));
-        System.out.println(logParser.getSolvedTaskUsers(null,null));
-        System.out.println(logParser.getSolvedTaskUsers(null,null,1));
-        System.out.println(logParser.getUsersForIP("127.0.0.1",null,null));
+        System.out.println(logParser.getDatesForUserAndEvent("Eduard Petrovich Morozko",Event.WRITE_MESSAGE,null,null));
+        System.out.println(logParser.getDatesWhenSomethingFailed(null,null));
+        System.out.println(logParser.getDatesWhenErrorHappened(null,null));
+        System.out.println(logParser.getDateWhenUserLoggedFirstTime("Eduard Petrovich Morozko",null,null));
+        System.out.println(logParser.getDateWhenUserSolvedTask("Vasya Pupkin",18,null,null));
+        System.out.println(logParser.getDateWhenUserDoneTask("1Vasya Pupkin",15,null,null));
+        System.out.println(logParser.getDatesWhenUserWroteMessage("Vasya Pupkin",null,null));
+        System.out.println(logParser.getDatesWhenUserDownloadedPlugin("Eduard Petrovich Morozko",null,null));
     }
 }

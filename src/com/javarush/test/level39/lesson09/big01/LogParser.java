@@ -1,5 +1,6 @@
 package com.javarush.test.level39.lesson09.big01;
 
+import com.javarush.test.level39.lesson09.big01.query.DateQuery;
 import com.javarush.test.level39.lesson09.big01.query.IPQuery;
 import com.javarush.test.level39.lesson09.big01.query.UserQuery;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LogParser implements IPQuery,UserQuery {
+public class LogParser implements IPQuery,UserQuery,DateQuery {
     private ArrayList<LogEntity> logRecords = new ArrayList<>();
 
     private class LogEntity {
@@ -287,5 +288,137 @@ public class LogParser implements IPQuery,UserQuery {
                 users.add(logEntity.getUser());
 
         return users;
+    }
+
+    @Override
+    public Set<Date> getDatesForUserAndEvent(String user, Event event, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && user.equalsIgnoreCase(logEntity.getUser())
+                    && event.equals(logEntity.getEvent())
+                    && Status.OK.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        return dates;
+    }
+
+    @Override
+    public Set<Date> getDatesWhenSomethingFailed(Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && Status.FAILED.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        return dates;
+    }
+
+    @Override
+    public Set<Date> getDatesWhenErrorHappened(Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && Status.ERROR.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        return dates;
+    }
+
+    @Override
+    public Date getDateWhenUserLoggedFirstTime(String user, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && user.equalsIgnoreCase(logEntity.getUser())
+                    && Event.LOGIN.equals(logEntity.getEvent())
+                    && Status.OK.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        if (dates.isEmpty()) return null;
+
+        return dates.iterator().next();
+    }
+
+    @Override
+    public Date getDateWhenUserSolvedTask(String user, int task, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && user.equalsIgnoreCase(logEntity.getUser())
+                    && Event.SOLVE_TASK.equals(logEntity.getEvent())
+                    && task == logEntity.getTask()
+                    //&& Status.OK.equals(logEntity.getStatus())
+                    )
+                dates.add(logEntity.getDate());
+
+        if (dates.isEmpty()) return null;
+
+        return dates.iterator().next();
+    }
+
+    @Override
+    public Date getDateWhenUserDoneTask(String user, int task, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && user.equalsIgnoreCase(logEntity.getUser())
+                    && Event.DONE_TASK.equals(logEntity.getEvent())
+                    && task == logEntity.getTask()
+                    && Status.OK.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        if (dates.isEmpty()) return null;
+
+        return dates.iterator().next();
+    }
+
+    @Override
+    public Set<Date> getDatesWhenUserWroteMessage(String user, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && user.equalsIgnoreCase(logEntity.getUser())
+                    && Event.WRITE_MESSAGE.equals(logEntity.getEvent())
+                    && Status.OK.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        return dates;
+    }
+
+    @Override
+    public Set<Date> getDatesWhenUserDownloadedPlugin(String user, Date after, Date before) {
+        Set<Date> dates = new HashSet<>();
+
+        for (LogEntity logEntity : logRecords)
+            if (!dates.contains(logEntity.getDate())
+                    && logEntityFitsPeriod(logEntity,after,before)
+                    && user.equalsIgnoreCase(logEntity.getUser())
+                    && Event.DOWNLOAD_PLUGIN.equals(logEntity.getEvent())
+                    && Status.OK.equals(logEntity.getStatus())
+                )
+                dates.add(logEntity.getDate());
+
+        return dates;
     }
 }
