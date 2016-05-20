@@ -14,7 +14,7 @@ import java.util.Set;
 public class LogParser implements IPQuery {
     private ArrayList<LogEntity> logRecords = new ArrayList<>();
 
-    class LogEntity {
+    private class LogEntity {
         String ip;
         String user;
         Date date;
@@ -46,38 +46,32 @@ public class LogParser implements IPQuery {
     }
 
     public LogParser(Path logDir) {
-        try
-        {
-            File logFolder = new File(logDir.toString());
-            File[] logFileList = logFolder.listFiles();
+        File logFolder = new File(logDir.toString());
+        File[] logFileList = logFolder.listFiles();
 
-            for (File aLogFileList : logFileList)
+        for (File aLogFileList : logFileList)
+        {
+            if (aLogFileList.isFile() && aLogFileList.toString().endsWith(".log"))
             {
-                if (aLogFileList.isFile() && aLogFileList.toString().endsWith(".log"))
+                try (BufferedReader br = new BufferedReader(new FileReader(aLogFileList));)
                 {
-                    try (BufferedReader br = new BufferedReader(new FileReader(aLogFileList));)
+                    String s;
+                    while ((s = br.readLine()) != null)
                     {
-                        String s;
-                        while ((s = br.readLine()) != null)
-                        {
-                            String[] logString = s.split("\t");
-                            String ip = logString[0];
-                            String user = logString[1];
-                            String dateString = logString[2];
-                            String eventString = logString[3];
-                            String statusString = logString[4];
-                            logRecords.add(new LogEntity(ip, user, dateString, eventString, statusString));
-                        }
+                        String[] logString = s.split("\t");
+                        String ip = logString[0].trim();
+                        String user = logString[1].trim();
+                        String dateString = logString[2].trim();
+                        String eventString = logString[3].trim();
+                        String statusString = logString[4].trim();
+                        logRecords.add(new LogEntity(ip, user, dateString, eventString, statusString));
                     }
-                    catch (IOException e)
-                    {
-                        //e.printStackTrace();
-                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        }
-        catch (Exception e) {
-            //e.printStackTrace();
         }
     }
 
@@ -92,20 +86,9 @@ public class LogParser implements IPQuery {
         Set<String> uniqueIPs = new HashSet<>();
 
         for (LogEntity logEntity : logRecords)
-        {
-            if (!uniqueIPs.contains(logEntity.getIp()))
-            {
-                if (after == null) {
-                    if (before == null) uniqueIPs.add(logEntity.getIp());
-                    else if (logEntity.getDate().before(before)) uniqueIPs.add(logEntity.getIp());
-                }
-                else
-                    if (before == null) {
-                        if (logEntity.getDate().after(after)) uniqueIPs.add(logEntity.getIp());
-                    }
-                    else if (logEntity.getDate().after(after) && logEntity.getDate().before(before)) uniqueIPs.add(logEntity.getIp());
-            }
-        }
+            if (!uniqueIPs.contains(logEntity.getIp()) && checkIPbyDates(logEntity,after,before))
+                uniqueIPs.add(logEntity.getIp());
+
         return uniqueIPs;
     }
 
@@ -115,20 +98,9 @@ public class LogParser implements IPQuery {
         Set<String> IPsForUser = new HashSet<>();
 
         for (LogEntity logEntity : logRecords)
-        {
-            if (!IPsForUser.contains(logEntity.getIp()) && logEntity.getUser().equalsIgnoreCase(user))
-            {
-                if (after == null) {
-                    if (before == null) IPsForUser.add(logEntity.getIp());
-                    else if (logEntity.getDate().before(before)) IPsForUser.add(logEntity.getIp());
-                }
-                else
-                if (before == null) {
-                    if (logEntity.getDate().after(after)) IPsForUser.add(logEntity.getIp());
-                }
-                else if (logEntity.getDate().after(after) && logEntity.getDate().before(before)) IPsForUser.add(logEntity.getIp());
-            }
-        }
+            if (!IPsForUser.contains(logEntity.getIp()) && logEntity.getUser().equalsIgnoreCase(user) && checkIPbyDates(logEntity,after,before))
+                IPsForUser.add(logEntity.getIp());
+
         return IPsForUser;
     }
 
@@ -138,20 +110,9 @@ public class LogParser implements IPQuery {
         Set<String> IPsForEvent = new HashSet<>();
 
         for (LogEntity logEntity : logRecords)
-        {
-            if (!IPsForEvent.contains(logEntity.getIp()) && event.equals(logEntity.getEvent()))
-            {
-                if (after == null) {
-                    if (before == null) IPsForEvent.add(logEntity.getIp());
-                    else if (logEntity.getDate().before(before)) IPsForEvent.add(logEntity.getIp());
-                }
-                else
-                if (before == null) {
-                    if (logEntity.getDate().after(after)) IPsForEvent.add(logEntity.getIp());
-                }
-                else if (logEntity.getDate().after(after) && logEntity.getDate().before(before)) IPsForEvent.add(logEntity.getIp());
-            }
-        }
+            if (!IPsForEvent.contains(logEntity.getIp()) && event.equals(logEntity.getEvent()) && checkIPbyDates(logEntity,after,before))
+                IPsForEvent.add(logEntity.getIp());
+
         return IPsForEvent;
     }
 
@@ -161,21 +122,33 @@ public class LogParser implements IPQuery {
         Set<String> IPsForStatus = new HashSet<>();
 
         for (LogEntity logEntity : logRecords)
-        {
-            if (!IPsForStatus.contains(logEntity.getIp()) && status.equals(logEntity.getStatus()))
-            {
-                if (after == null) {
-                    if (before == null) IPsForStatus.add(logEntity.getIp());
-                    else if (logEntity.getDate().before(before)) IPsForStatus.add(logEntity.getIp());
+            if (!IPsForStatus.contains(logEntity.getIp()) && status.equals(logEntity.getStatus()) && checkIPbyDates(logEntity,after,before))
+                IPsForStatus.add(logEntity.getIp());
+
+        return IPsForStatus;
+    }
+
+    private boolean checkIPbyDates(LogEntity logEntity, Date after, Date before) {
+        if (after == null) {
+            if (before == null) {
+                return true;
+            }
+            else {
+                if (logEntity.getDate().getTime() <= before.getTime()) {
+                    return true;
                 }
-                else
-                if (before == null) {
-                    if (logEntity.getDate().after(after)) IPsForStatus.add(logEntity.getIp());
+            }
+        }
+        else {
+            if (before == null) {
+                if (logEntity.getDate().getTime() >= after.getTime()) {
+                    return true;
                 }
-                else if (logEntity.getDate().after(after) && logEntity.getDate().before(before)) IPsForStatus.add(logEntity.getIp());
+            } else {
+                return logEntity.getDate().getTime() >= after.getTime() && logEntity.getDate().getTime() <= before.getTime();
             }
         }
 
-        return IPsForStatus;
+        return false;
     }
 }
