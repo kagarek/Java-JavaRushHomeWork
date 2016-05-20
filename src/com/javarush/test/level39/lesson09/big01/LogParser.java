@@ -1,6 +1,7 @@
 package com.javarush.test.level39.lesson09.big01;
 
 import com.javarush.test.level39.lesson09.big01.query.DateQuery;
+import com.javarush.test.level39.lesson09.big01.query.EventQuery;
 import com.javarush.test.level39.lesson09.big01.query.IPQuery;
 import com.javarush.test.level39.lesson09.big01.query.UserQuery;
 
@@ -8,12 +9,9 @@ import java.io.*;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-public class LogParser implements IPQuery,UserQuery,DateQuery {
+public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery {
     private ArrayList<LogEntity> logRecords = new ArrayList<>();
 
     private class LogEntity {
@@ -420,5 +418,55 @@ public class LogParser implements IPQuery,UserQuery,DateQuery {
                 dates.add(logEntity.getDate());
 
         return dates;
+    }
+
+    @Override
+    public int getNumberOfAllEvents(Date after, Date before) {
+        return 0;
+    }
+
+    @Override
+    public Set<Event> getAllEvents(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<Event> getEventsForIP(String ip, Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<Event> getEventsForUser(String user, Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<Event> getFailedEvents(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<Event> getErrorEvents(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public int getNumberOfAttemptToSolveTask(int task, Date after, Date before) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberOfSuccessfulAttemptToSolveTask(int task, Date after, Date before) {
+        return 0;
+    }
+
+    @Override
+    public Map<Integer, Integer> getAllSolvedTasksAndTheirNumber(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, Integer> getAllDoneTasksAndTheirNumber(Date after, Date before) {
+        return null;
     }
 }
