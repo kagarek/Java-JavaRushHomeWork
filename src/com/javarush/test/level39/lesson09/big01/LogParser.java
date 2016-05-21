@@ -1,9 +1,6 @@
 package com.javarush.test.level39.lesson09.big01;
 
-import com.javarush.test.level39.lesson09.big01.query.DateQuery;
-import com.javarush.test.level39.lesson09.big01.query.EventQuery;
-import com.javarush.test.level39.lesson09.big01.query.IPQuery;
-import com.javarush.test.level39.lesson09.big01.query.UserQuery;
+import com.javarush.test.level39.lesson09.big01.query.*;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -11,7 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery {
+public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery {
     private ArrayList<LogEntity> logRecords = new ArrayList<>();
 
     private class LogEntity {
@@ -553,5 +550,19 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery {
             }
 
         return map;
+    }
+
+    @Override
+    public Set<Object> execute(String query) {
+
+        switch (query) {
+            case "get ip" : return getUniqueIPs(null,null);
+            case "get user" : return getAllUsers();
+            case "get date" : return null;
+            case "get event" : return getAllEvents(null,null);
+            case "get status" : return null;
+        }
+
+        return null;
     }
 }
