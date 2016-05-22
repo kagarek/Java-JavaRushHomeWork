@@ -560,13 +560,26 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
         String field1 = params[0].split(" ")[1];
         String field2 = params[0].split(" ")[3];
         String value1 = "";
-        Date after;
-        Date before;
+        String value2 = "";
+        String value3 = "";
+        Date after = null;
+        Date before = null;
 
         if (!params[1].contains("and date between"))
             value1 = params[1].replace("\"","").trim();
         else
+        {
+            value1 = params[1].substring(0,params[1].indexOf("and date between")).replace("\"","").trim();
+            value2 = params[1].substring(params[1].indexOf("and date between")+16,params[1].indexOf("and \"")).replace("\"","").trim();
+            value3 = params[1].substring(params[1].indexOf("and \"")+5).replace("\"","").trim();
 
+            try {
+                after = sdf.parse(value2);
+                before = sdf.parse(value3);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         Set<Object> result = new HashSet<>();
 
@@ -575,13 +588,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                 switch (field2) {
                     case "ip": {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getIp()))
+                            if (value1.equals(logEntity.getIp()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getIp());
                         break;
                     }
                     case "user" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getUser()))
+                            if (value1.equals(logEntity.getUser()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getIp());
                         break;
                     }
@@ -589,7 +602,7 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                         try {
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
-                                if (value.equals(logEntity.getDate()))
+                                if (value.equals(logEntity.getDate()) && logEntityFitsPeriod(logEntity,after,before))
                                     result.add(logEntity.getIp());
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -598,13 +611,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "event" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getEvent().toString()))
+                            if (value1.equals(logEntity.getEvent().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getIp());
                         break;
                     }
                     case "status" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getStatus().toString()))
+                            if (value1.equals(logEntity.getStatus().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getIp());
                         break;
                     }
@@ -616,13 +629,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                 switch (field2) {
                     case "ip": {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getIp()))
+                            if (value1.equals(logEntity.getIp()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getUser());
                         break;
                     }
                     case "user" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getUser()))
+                            if (value1.equals(logEntity.getUser()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getUser());
                         break;
                     }
@@ -630,7 +643,7 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                         try {
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
-                                if (value.equals(logEntity.getDate()))
+                                if (value.equals(logEntity.getDate()) && logEntityFitsPeriod(logEntity,after,before))
                                     result.add(logEntity.getUser());
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -639,13 +652,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "event" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getEvent().toString()))
+                            if (value1.equals(logEntity.getEvent().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getUser());
                         break;
                     }
                     case "status" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getStatus().toString()))
+                            if (value1.equals(logEntity.getStatus().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getUser());
                         break;
                     }
@@ -657,13 +670,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                 switch (field2) {
                     case "ip": {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getIp()))
+                            if (value1.equals(logEntity.getIp()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getDate());
                         break;
                     }
                     case "user" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getUser()))
+                            if (value1.equals(logEntity.getUser()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getDate());
                         break;
                     }
@@ -671,7 +684,7 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                         try {
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
-                                if (value.equals(logEntity.getDate()))
+                                if (value.equals(logEntity.getDate()) && logEntityFitsPeriod(logEntity,after,before))
                                     result.add(logEntity.getDate());
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -680,13 +693,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "event" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getEvent().toString()))
+                            if (value1.equals(logEntity.getEvent().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getDate());
                         break;
                     }
                     case "status" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getStatus().toString()))
+                            if (value1.equals(logEntity.getStatus().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getDate());
                         break;
                     }
@@ -698,13 +711,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                 switch (field2) {
                     case "ip": {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getIp()))
+                            if (value1.equals(logEntity.getIp()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getEvent());
                         break;
                     }
                     case "user" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getUser()))
+                            if (value1.equals(logEntity.getUser()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getEvent());
                         break;
                     }
@@ -712,7 +725,7 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                         try {
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
-                                if (value.equals(logEntity.getDate()))
+                                if (value.equals(logEntity.getDate()) && logEntityFitsPeriod(logEntity,after,before))
                                     result.add(logEntity.getEvent());
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -721,13 +734,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "event" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getEvent().toString()))
+                            if (value1.equals(logEntity.getEvent().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getEvent());
                         break;
                     }
                     case "status" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getStatus().toString()))
+                            if (value1.equals(logEntity.getStatus().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getEvent());
                         break;
                     }
@@ -739,13 +752,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                 switch (field2) {
                     case "ip": {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getIp()))
+                            if (value1.equals(logEntity.getIp()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getStatus());
                         break;
                     }
                     case "user" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getUser()))
+                            if (value1.equals(logEntity.getUser()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getStatus());
                         break;
                     }
@@ -753,7 +766,7 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                         try {
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
-                                if (value.equals(logEntity.getDate()))
+                                if (value.equals(logEntity.getDate()) && logEntityFitsPeriod(logEntity,after,before))
                                     result.add(logEntity.getStatus());
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -762,13 +775,13 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "event" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getEvent().toString()))
+                            if (value1.equals(logEntity.getEvent().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getStatus());
                         break;
                     }
                     case "status" : {
                         for (LogEntity logEntity : logRecords)
-                            if (value1.equals(logEntity.getStatus().toString()))
+                            if (value1.equals(logEntity.getStatus().toString()) && logEntityFitsPeriod(logEntity,after,before))
                                 result.add(logEntity.getStatus());
                         break;
                     }
