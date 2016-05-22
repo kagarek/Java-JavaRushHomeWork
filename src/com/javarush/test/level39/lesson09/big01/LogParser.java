@@ -555,14 +555,20 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
     @Override
     public Set<Object> execute(String query) {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         String[] params = query.split("=");
         String field1 = params[0].split(" ")[1];
         String field2 = params[0].split(" ")[3];
-        String value1 = params[1].replace("\"","").trim();
+        String value1 = "";
+        Date after;
+        Date before;
+
+        if (!params[1].contains("and date between"))
+            value1 = params[1].replace("\"","").trim();
+        else
+
 
         Set<Object> result = new HashSet<>();
-
-        //get ip for user = "Vasya"
 
         switch (field1) {
             case "ip" : {
@@ -581,7 +587,6 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "date" : {
                         try {
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
                                 if (value.equals(logEntity.getDate()))
@@ -623,7 +628,6 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "date" : {
                         try {
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
                                 if (value.equals(logEntity.getDate()))
@@ -665,7 +669,6 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "date" : {
                         try {
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
                                 if (value.equals(logEntity.getDate()))
@@ -707,7 +710,6 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "date" : {
                         try {
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
                                 if (value.equals(logEntity.getDate()))
@@ -749,7 +751,6 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
                     }
                     case "date" : {
                         try {
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
                             Date value = sdf.parse(value1);
                             for (LogEntity logEntity : logRecords)
                                 if (value.equals(logEntity.getDate()))
