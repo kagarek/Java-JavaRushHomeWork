@@ -554,15 +554,230 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
 
     @Override
     public Set<Object> execute(String query) {
+
+        String[] params = query.split("=");
+        String field1 = params[0].split(" ")[1];
+        String field2 = params[0].split(" ")[3];
+        String value1 = params[1].replace("\"","").trim();
+
         Set<Object> result = new HashSet<>();
-        switch (query) {
-            case "get ip" : result.addAll(getUniqueIPs(null,null)); break;
-            case "get user" : result.addAll(getAllUsers()); break;
-            case "get date" : result.addAll(getAllEventDates()); break;
-            case "get event" : result.addAll(getAllEvents(null,null)); break;
-            case "get status" : result.addAll(getAllEventStatuses()); break;
+
+        //get ip for user = "Vasya"
+
+        switch (field1) {
+            case "ip" : {
+                switch (field2) {
+                    case "ip": {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getIp()))
+                                result.add(logEntity.getIp());
+                        break;
+                    }
+                    case "user" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getUser()))
+                                result.add(logEntity.getIp());
+                        break;
+                    }
+                    case "date" : {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                            Date value = sdf.parse(value1);
+                            for (LogEntity logEntity : logRecords)
+                                if (value.equals(logEntity.getDate()))
+                                    result.add(logEntity.getIp());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case "event" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getEvent().toString()))
+                                result.add(logEntity.getIp());
+                        break;
+                    }
+                    case "status" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getStatus().toString()))
+                                result.add(logEntity.getIp());
+                        break;
+                    }
+                    default: break;
+                }
+                break;
+            }
+            case "user" : {
+                switch (field2) {
+                    case "ip": {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getIp()))
+                                result.add(logEntity.getUser());
+                        break;
+                    }
+                    case "user" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getUser()))
+                                result.add(logEntity.getUser());
+                        break;
+                    }
+                    case "date" : {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                            Date value = sdf.parse(value1);
+                            for (LogEntity logEntity : logRecords)
+                                if (value.equals(logEntity.getDate()))
+                                    result.add(logEntity.getUser());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case "event" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getEvent().toString()))
+                                result.add(logEntity.getUser());
+                        break;
+                    }
+                    case "status" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getStatus().toString()))
+                                result.add(logEntity.getUser());
+                        break;
+                    }
+                    default: break;
+                }
+                break;
+            }
+            case "date" : {
+                switch (field2) {
+                    case "ip": {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getIp()))
+                                result.add(logEntity.getDate());
+                        break;
+                    }
+                    case "user" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getUser()))
+                                result.add(logEntity.getDate());
+                        break;
+                    }
+                    case "date" : {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                            Date value = sdf.parse(value1);
+                            for (LogEntity logEntity : logRecords)
+                                if (value.equals(logEntity.getDate()))
+                                    result.add(logEntity.getDate());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case "event" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getEvent().toString()))
+                                result.add(logEntity.getDate());
+                        break;
+                    }
+                    case "status" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getStatus().toString()))
+                                result.add(logEntity.getDate());
+                        break;
+                    }
+                    default: break;
+                }
+                break;
+            }
+            case "event" : {
+                switch (field2) {
+                    case "ip": {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getIp()))
+                                result.add(logEntity.getEvent());
+                        break;
+                    }
+                    case "user" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getUser()))
+                                result.add(logEntity.getEvent());
+                        break;
+                    }
+                    case "date" : {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                            Date value = sdf.parse(value1);
+                            for (LogEntity logEntity : logRecords)
+                                if (value.equals(logEntity.getDate()))
+                                    result.add(logEntity.getEvent());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case "event" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getEvent().toString()))
+                                result.add(logEntity.getEvent());
+                        break;
+                    }
+                    case "status" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getStatus().toString()))
+                                result.add(logEntity.getEvent());
+                        break;
+                    }
+                    default: break;
+                }
+                break;
+            }
+            case "status" : {
+                switch (field2) {
+                    case "ip": {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getIp()))
+                                result.add(logEntity.getStatus());
+                        break;
+                    }
+                    case "user" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getUser()))
+                                result.add(logEntity.getStatus());
+                        break;
+                    }
+                    case "date" : {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+                            Date value = sdf.parse(value1);
+                            for (LogEntity logEntity : logRecords)
+                                if (value.equals(logEntity.getDate()))
+                                    result.add(logEntity.getStatus());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case "event" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getEvent().toString()))
+                                result.add(logEntity.getStatus());
+                        break;
+                    }
+                    case "status" : {
+                        for (LogEntity logEntity : logRecords)
+                            if (value1.equals(logEntity.getStatus().toString()))
+                                result.add(logEntity.getStatus());
+                        break;
+                    }
+                    default: break;
+                }
+                break;
+            }
             default: break;
         }
+
         return result;
     }
 
