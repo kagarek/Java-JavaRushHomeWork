@@ -554,15 +554,31 @@ public class LogParser implements IPQuery,UserQuery,DateQuery,EventQuery,QLQuery
 
     @Override
     public Set<Object> execute(String query) {
-
+        Set<Object> result = new HashSet<>();
         switch (query) {
-            case "get ip" : return getUniqueIPs(null,null);
-            case "get user" : return getAllUsers();
-            case "get date" : return null;
-            case "get event" : return getAllEvents(null,null);
-            case "get status" : return null;
+            case "get ip" : result.addAll(getUniqueIPs(null,null)); break;
+            case "get user" : result.addAll(getAllUsers()); break;
+            case "get date" : result.addAll(getAllEventDates()); break;
+            case "get event" : result.addAll(getAllEvents(null,null)); break;
+            case "get status" : result.addAll(getAllEventStatuses()); break;
+            default: break;
         }
+        return result;
+    }
 
-        return null;
+    public Set<Date> getAllEventDates() {
+        Set<Date> events = new HashSet<>();
+        for (LogEntity logEntity : logRecords)
+            if (!events.contains(logEntity.getDate()))
+                events.add(logEntity.getDate());
+        return events;
+    }
+
+    public Set<Status> getAllEventStatuses() {
+        Set<Status> events = new HashSet<>();
+        for (LogEntity logEntity : logRecords)
+            if (!events.contains(logEntity.getStatus()))
+                events.add(logEntity.getStatus());
+        return events;
     }
 }
