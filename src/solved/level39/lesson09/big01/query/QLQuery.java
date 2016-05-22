@@ -1,4 +1,4 @@
-package com.javarush.test.level39.lesson09.big01.query;
+package solved.level39.lesson09.big01.query;
 
 import java.util.Set;
 

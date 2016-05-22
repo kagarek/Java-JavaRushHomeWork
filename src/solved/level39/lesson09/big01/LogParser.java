@@ -1,6 +1,6 @@
-package com.javarush.test.level39.lesson09.big01;
+package solved.level39.lesson09.big01;
 
-import com.javarush.test.level39.lesson09.big01.query.*;
+import solved.level39.lesson09.big01.query.*;
 
 import java.io.*;
 import java.nio.file.Path;

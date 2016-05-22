@@ -1,6 +1,6 @@
-package com.javarush.test.level39.lesson09.big01.query;
+package solved.level39.lesson09.big01.query;
 
-import com.javarush.test.level39.lesson09.big01.Event;
+import solved.level39.lesson09.big01.Event;
 
 import java.util.Date;
 import java.util.Set;
