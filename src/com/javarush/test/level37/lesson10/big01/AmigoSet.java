@@ -29,26 +29,35 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable,Cloneabl
         return amigoSet;
     }
 
-    private void writeObject(java.io.ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeObject(HashMapReflectionHelper.callHiddenMethod(map,"capacity"));
-        s.writeObject(HashMapReflectionHelper.callHiddenMethod(map,"loadFactor"));
-        s.writeObject(map.keySet().size());
-        Object[] objects = map.keySet().toArray();
-        for (int i = 0; i < objects.length; i++) {
-            s.writeObject(objects[i]);
+    private void writeObject(java.io.ObjectOutputStream s) {
+        //s.defaultWriteObject();
+        try {
+            s.writeObject(HashMapReflectionHelper.callHiddenMethod(map, "capacity"));
+            s.writeObject(HashMapReflectionHelper.callHiddenMethod(map, "loadFactor"));
+            s.writeObject(map.keySet().size());
+            Object[] objects = map.keySet().toArray();
+            for (int i = 0; i < objects.length; i++) {
+                s.writeObject(objects[i]);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        int mapCapacity = (int) s.readObject();
-        float mapLoadFactor = Float.parseFloat(s.readObject().toString());
-        int size = (int) s.readObject();
-        map = new HashMap<>(mapCapacity,mapLoadFactor);
-        for (int i = 0; i < size; i++) {
-            E e = (E) s.readObject();
-            map.put(e,PRESENT);
+    private void readObject(java.io.ObjectInputStream s) {
+        //s.defaultReadObject();
+        try {
+            int mapCapacity = (int) s.readObject();
+            float mapLoadFactor = Float.parseFloat(s.readObject().toString());
+            int size = (int) s.readObject();
+            map = new HashMap<>(mapCapacity, mapLoadFactor);
+            for (int i = 0; i < size; i++) {
+                E e = (E) s.readObject();
+                map.put(e, PRESENT);
+            }
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -96,21 +105,4 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable,Cloneabl
     public void clear() {
         super.clear();
     }
-
- /*   public static void main(String[] args) throws IOException, ClassNotFoundException {
-        AmigoSet<Integer> amigoSet = new AmigoSet<Integer>(Arrays.asList(1,3,4,7));
-        ObjectOutputStream oos = new ObjectOutputStream(
-                new FileOutputStream("/Users/igormakarychev/Documents/Java projects/Java-JavaRushHomeWork/src/com/javarush/test/level37/lesson10/big01/tmp.txt"));
-        oos.writeObject(amigoSet);
-
-        oos.close();
-
-        ObjectInputStream ois = new ObjectInputStream(
-                new FileInputStream("/Users/igormakarychev/Documents/Java projects/Java-JavaRushHomeWork/src/com/javarush/test/level37/lesson10/big01/tmp.txt"));
-
-        AmigoSet<Integer> amigoSet_deserial = (AmigoSet<Integer>) ois.readObject();
-
-        ois.close();
-        System.out.println();
-    }*/
 }
