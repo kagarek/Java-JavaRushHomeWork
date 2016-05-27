@@ -29,7 +29,7 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable,Cloneabl
         return amigoSet;
     }
 
-    private void writeObject(java.io.ObjectOutputStream s) {
+	private void writeObject(java.io.ObjectOutputStream s) {
         try {
             s.defaultWriteObject();
             Set<E> setToSerialize = map.keySet();
