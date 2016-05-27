@@ -21,6 +21,11 @@ public class Solution {
         AmigoSet<Integer> amigoSet_deserial = (AmigoSet<Integer>) ois.readObject();
 
         ois.close();
-        if (amigoSet.equals(amigoSet_deserial)) System.out.println("equals");
+        if (amigoSet.equals(amigoSet_deserial))
+        {
+            System.out.println(amigoSet.size());
+            System.out.println(amigoSet_deserial.size());
+            System.out.println("equals");
+        }
     }
 }
