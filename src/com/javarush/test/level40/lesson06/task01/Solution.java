@@ -1,8 +1,13 @@
 package com.javarush.test.level40.lesson06.task01;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 /* Отправка письма с файлом
@@ -39,7 +44,7 @@ public class Solution {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
 
             setSubject(message, "Тестовое письмо");
-            setAttachment(message, "c:/text.txt");
+            setAttachment(message, "/Users/igormakarychev/Documents/Java projects/Java-JavaRushHomeWork/resources/level40/lesson06/task01/test.txt");
 
             Transport.send(message);
             System.out.println("Письмо было отправлено.");
@@ -54,6 +59,12 @@ public class Solution {
     }
 
     public static void setAttachment(Message message, String filename) throws MessagingException {
-        message.setText(filename);
+        BodyPart messageBodyPart = new MimeBodyPart();
+        Multipart multipart = new MimeMultipart();
+        DataSource source = new FileDataSource(filename);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(filename);
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);
     }
 }
