@@ -36,7 +36,11 @@ public class Solution {
     }
 
     public static boolean isPointInPolygon(Point point, List<Point> polygon) {
+        Boolean result = false;
+
         //напишите тут ваш код
+
+        return result;
     }
 
 }
