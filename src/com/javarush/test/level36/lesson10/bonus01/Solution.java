@@ -1,12 +1,5 @@
 package com.javarush.test.level36.lesson10.bonus01;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
 
 /* Осваиваем ClassLoader и Reflection
 Аргументом для класса Solution является абсолютный путь к пакету,
@@ -18,14 +11,14 @@ import java.util.List;
 Известно, что есть только один класс, простое имя которого начинается с String key без учета регистра.
 */
 public class Solution {
-    private List<Class> hiddenClasses = new ArrayList<>();
+    private java.util.ArrayList<Class> hiddenClasses = new java.util.ArrayList<>();
     private String packageName;
     public Solution(String packageName) {
         this.packageName = packageName;
     }
 
     public static void main(String[] args) throws ClassNotFoundException {
-        Solution solution = new Solution("/Users/igormakarychev/Documents/Java projects/Java-JavaRushHomeWork/out/production/JavaRushHomeWork/com/javarush/test/level36/lesson10/bonus01/data/second");
+        Solution solution = new Solution("./out/production/JavaRushHomeWork/com/javarush/test/level36/lesson10/bonus01/data/second");
         solution.scanFileSystem();
         System.out.println(solution.getHiddenClassObjectByKey("hiddenclassimplse"));
         System.out.println(solution.getHiddenClassObjectByKey("hiddenclassimplf"));
@@ -33,8 +26,8 @@ public class Solution {
     }
 
     public void scanFileSystem() throws ClassNotFoundException {
-        File dir = new File(packageName);
-        final String finalPath = dir.getAbsolutePath() + File.separator;
+        java.io.File dir = new java.io.File(packageName);
+        final String finalPath = dir.getAbsolutePath() + java.io.File.separator;
 
         String[] classFiles = dir.list();
         for (String classFile:classFiles){
@@ -48,7 +41,7 @@ public class Solution {
                         byte[] temp = getBytesFromFile(finalPath+name+".class");
                         return defineClass(null,temp,0,temp.length);
                     }
-                    catch (IOException e)
+                    catch (java.io.IOException e)
                     {
                         throw new ClassNotFoundException();
                     }
@@ -69,9 +62,9 @@ public class Solution {
             if(clazz.getSimpleName().toLowerCase().startsWith(key.toLowerCase())){
                 try
                 {
-                    Constructor[] constructors = clazz.getDeclaredConstructors();
+                    java.lang.reflect.Constructor[] constructors = clazz.getDeclaredConstructors();
                     for (int i = 0; i < constructors.length; i++) {
-                        if (constructors[i].getParameterCount() == 0) {
+                        if (constructors[i].getParameterTypes().length == 0) {
                             constructors[i].setAccessible(true);
                             return (HiddenClass) constructors[i].newInstance();
                         }
@@ -83,10 +76,10 @@ public class Solution {
         return null;
     }
 
-    public static byte[] getBytesFromFile(String path) throws IOException
+    public static byte[] getBytesFromFile(String path) throws java.io.IOException
     {
-        File file = new File(path);
-        InputStream is = new FileInputStream(file);
+        java.io.File file = new java.io.File(path);
+        java.io.InputStream is = new java.io.FileInputStream(file);
         // Get the size of the file
         long length = file.length();
         if (length > Integer.MAX_VALUE) {
@@ -103,7 +96,7 @@ public class Solution {
         }
         // Ensure all the bytes have been read in
         if (offset < bytes.length) {
-            throw new IOException("Could not completely read file "+path);
+            throw new java.io.IOException("Could not completely read file "+path);
         }
         // Close the input stream and return bytes
         is.close();
