@@ -30,15 +30,14 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable,Cloneabl
     }
 
     private void writeObject(java.io.ObjectOutputStream s) {
-        //s.defaultWriteObject();
         try {
+            s.defaultWriteObject();
+            s.writeObject(map.keySet().size());
+            for(E e:map.keySet()){
+                s.writeObject(e);
+            }
             s.writeObject(HashMapReflectionHelper.callHiddenMethod(map, "capacity"));
             s.writeObject(HashMapReflectionHelper.callHiddenMethod(map, "loadFactor"));
-            s.writeObject(map.keySet().size());
-            Object[] objects = map.keySet().toArray();
-            for (int i = 0; i < objects.length; i++) {
-                s.writeObject(objects[i]);
-            }
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -46,15 +45,18 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable,Cloneabl
     }
 
     private void readObject(java.io.ObjectInputStream s) {
-        //s.defaultReadObject();
         try {
-            int mapCapacity = (int) s.readObject();
-            float mapLoadFactor = Float.parseFloat(s.readObject().toString());
-            int size = (int) s.readObject();
-            map = new HashMap<>(mapCapacity, mapLoadFactor);
-            for (int i = 0; i < size; i++) {
-                E e = (E) s.readObject();
-                map.put(e, PRESENT);
+            s.defaultReadObject();
+            int size = (int)s.readObject();
+            Set<E> set = new HashSet<>();
+            for(int i =0;i<size;i++){
+                set.add((E)s.readObject());
+            }
+            int capacity = (int)s.readObject();
+            float loadFactor = (float)s.readObject();
+            map = new HashMap<>(capacity,loadFactor);
+            for(E e:set){
+                map.put(e,PRESENT);
             }
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
