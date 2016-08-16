@@ -5,9 +5,6 @@ package com.javarush.test.level40.lesson06.task02;
 Ребра многоугольника не пересекаются.
 Необходимо реализовать метод isPointInPolygon(Point point, List<Point> polygon), который проверит,
 принадлежит ли переданная точка многоугольнику.
-
-https://ru.wikipedia.org/wiki/Задача_о_принадлежности_точки_многоугольнику
-
 */
 
 import java.util.ArrayList;
@@ -36,11 +33,32 @@ public class Solution {
     }
 
     public static boolean isPointInPolygon(Point point, List<Point> polygon) {
-        Boolean result = false;
+        double sm1=0;
+        double sm2=0;
+        double sm;
+        double st=0;
 
-        //напишите тут ваш код
+        for (int i = 0; i < polygon.size(); i++) {
+            Point point2;
+            Point point3;
 
-        return result;
+            if (i == polygon.size()-1)
+            {
+                point2 = polygon.get(i);
+                point3 = polygon.get(0);
+            }
+            else {
+                point2 = polygon.get(i);
+                point3 = polygon.get(i + 1);
+            }
+            sm1+=point2.x*point3.y;
+            sm2+=point2.y*point3.x;
+            st+=Math.abs((point.x-point3.x)*(point2.y-point3.y)-(point2.x-point3.x)*(point.y-point3.y))/2;
+        }
+
+        sm = Math.abs(sm1-sm2)/2;
+
+        return sm==st;
     }
 
 }
