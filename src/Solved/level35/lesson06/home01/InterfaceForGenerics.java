@@ -1,4 +1,4 @@
-package Solved.level35.lesson06.home01;
+package solved.level35.lesson06.home01;
 
 public interface InterfaceForGenerics {
 }

@@ -1,4 +1,4 @@
-package Solved.level35.lesson10.task02;
+package solved.level35.lesson10.task02;
 
 import java.util.List;
 

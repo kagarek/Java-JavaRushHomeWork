@@ -1,4 +1,4 @@
-package Solved.level35.lesson06.task01;
+package solved.level35.lesson06.task01;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

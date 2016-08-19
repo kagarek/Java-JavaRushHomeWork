@@ -1,4 +1,4 @@
-package Solved.level38.lesson06.home01;
+package solved.level38.lesson06.home01;
 
 /**
  * Created by Igor_Makarychev on 17.05.2016.

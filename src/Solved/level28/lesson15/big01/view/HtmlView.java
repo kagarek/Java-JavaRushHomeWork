@@ -1,10 +1,10 @@
 package solved.level28.lesson15.big01.view;
 
-import solved.level28.lesson15.big01.Controller;
-import solved.level28.lesson15.big01.vo.Vacancy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import solved.level28.lesson15.big01.Controller;
+import solved.level28.lesson15.big01.vo.Vacancy;
 
 import java.io.*;
 import java.util.List;

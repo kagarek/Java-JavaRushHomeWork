@@ -1,4 +1,4 @@
-package Solved.level35.lesson08.task01;
+package solved.level35.lesson08.task01;
 
 import java.util.ArrayList;
 import java.util.List;

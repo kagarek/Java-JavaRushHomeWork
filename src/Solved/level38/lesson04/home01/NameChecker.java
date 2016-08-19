@@ -1,4 +1,4 @@
-package Solved.level38.lesson04.home01;
+package solved.level38.lesson04.home01;
 
 public class NameChecker {
     private static final int MAX_NUMBER_OF_CHARACTERS = 100500;

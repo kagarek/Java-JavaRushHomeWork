@@ -1,4 +1,4 @@
-package Solved.level38.lesson06.home01;
+package solved.level38.lesson06.home01;
 
 public enum ExceptionUserMessage {
     USER_DOES_NOT_EXIST,

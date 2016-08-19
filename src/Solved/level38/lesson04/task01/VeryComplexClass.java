@@ -1,4 +1,4 @@
-package Solved.level38.lesson04.task01;
+package solved.level38.lesson04.task01;
 
 /* Проверяемые исключения (checked exception)
 Напиши реализацию метода veryComplexMethod().
