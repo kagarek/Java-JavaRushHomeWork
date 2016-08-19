@@ -8,6 +8,8 @@ package com.javarush.test.level40.lesson06.task02;
 
 http://ru.wikihow.com/найти-площадь-многоугольника
 https://otvet.mail.ru/question/53194356
+
+https://habrahabr.ru/post/161237/
 */
 
 import java.util.ArrayList;
@@ -26,13 +28,15 @@ class Point {
 public class Solution {
     public static void main(String[] args) {
         List<Point> polygon = new ArrayList<>();
-//        polygon.add(new Point(0, 0));
-//        polygon.add(new Point(0, 10));
-//        polygon.add(new Point(10, 10));
-//        polygon.add(new Point(10, 0));
+        polygon.add(new Point(0, 0));
+        polygon.add(new Point(0, 10));
+        polygon.add(new Point(10, 10));
+        polygon.add(new Point(10, 0));
 
-//        System.out.println(isPointInPolygon(new Point(5, 5), polygon));
-//        System.out.println(isPointInPolygon(new Point(100, 100), polygon));
+        System.out.println("Should be true - "  + isPointInPolygon(new Point(5, 5), polygon));
+        System.out.println("Should be false - " + isPointInPolygon(new Point(100, 100), polygon));
+
+        polygon.clear();
 
         polygon.add(new Point(-3, -2));
         polygon.add(new Point(-1, 4));
@@ -40,9 +44,9 @@ public class Solution {
         polygon.add(new Point(3, 10));
         polygon.add(new Point(-4, 9));
 
-        System.out.println(isPointInPolygon(new Point(4, 4), polygon));
-        System.out.println(isPointInPolygon(new Point(0, 0), polygon));
-        System.out.println(isPointInPolygon(new Point(7, 4), polygon));
+        System.out.println("Should be true - "  + isPointInPolygon(new Point(4, 4), polygon));
+        System.out.println("Should be true - "  + isPointInPolygon(new Point(0, 0), polygon));
+        System.out.println("Should be true - "  + isPointInPolygon(new Point(7, 4), polygon));
     }
 
     public static boolean isPointInPolygon(Point point, List<Point> polygon) {
@@ -74,6 +78,24 @@ public class Solution {
         System.out.println(sm);
 
         return sm==st;
+    }
+
+    public static int check(Point a, Point b, Point middle)
+    {
+        long ax = a.x - middle.x;
+        long ay = a.y - middle.y;
+        long bx = b.x - middle.x;
+        long by = b.y - middle.y;
+        int s = Long.signum(ax * by - ay * bx);
+        if (s == 0 && (ay == 0 || by == 0) && ax * bx <= 0)
+            return 0;
+        if (ay < 0 ^ by < 0)
+        {
+            if (by < 0)
+                return s;
+            return -s;
+        }
+        return 1;
     }
 
 }
