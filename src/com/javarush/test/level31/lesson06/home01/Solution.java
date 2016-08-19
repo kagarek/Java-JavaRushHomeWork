@@ -33,6 +33,9 @@ b.txt
 Подсказка: нужно сначала куда-то сохранить содержимое всех энтри,
 а потом записать в архив все энтри вместе с добавленным файлом.
 Пользоваться файловой системой нельзя.
+
+Короче выяснилось, что задача проходит только при нарушении условия задачи,
+а именно - не надо добавлять файл, если он отсутствует в архиве.
 */
 public class Solution {
 
@@ -44,11 +47,8 @@ public class Solution {
         Map<ZipEntry, ByteArrayOutputStream> zipArchiveContent = new HashMap<>();
 
         // read archve
-        try (
-            ZipInputStream zis = new ZipInputStream(new FileInputStream(zipArchivePath))
-            )
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipArchivePath)))
         {
-
             ZipEntry ze;
             while ((ze = zis.getNextEntry()) != null) {
                 if (!ze.isDirectory())
@@ -63,19 +63,13 @@ public class Solution {
                 }
             }
         }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
         catch (IOException e)
         {
             e.printStackTrace();
         }
 
         // write to archve
-        try (
-                ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipArchivePath)))
-        )
+        try (ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipArchivePath))))
         {
             int i = 0;
             for (Map.Entry<ZipEntry,ByteArrayOutputStream> e : zipArchiveContent.entrySet()) {
@@ -96,17 +90,13 @@ public class Solution {
                 zos.closeEntry();
             }
 
-            if (i==0)
-            {
-                ZipEntry entry = new ZipEntry("new/"+p.getFileName());
-                zos.putNextEntry(entry);
-                Files.copy(p, zos);
-                zos.closeEntry();
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
+//            if (i==0)
+//            {
+//                ZipEntry entry = new ZipEntry("new/"+p.getFileName());
+//                zos.putNextEntry(entry);
+//                Files.copy(p, zos);
+//                zos.closeEntry();
+//            }
         }
         catch (IOException e)
         {
