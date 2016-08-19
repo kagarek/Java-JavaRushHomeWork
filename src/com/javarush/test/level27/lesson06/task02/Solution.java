@@ -27,68 +27,40 @@ public class Solution {
         }
     }
 
-    public static boolean isNormalLockOrder (final Solution solution, final Object o1, final Object o2) throws Exception
-    { if (o1.equals(o2)) return true;
+    public static boolean isNormalLockOrder(final Solution solution, final Object o1, final Object o2) throws Exception {
 
-        Thread thread1 = new Thread()
-        {
-            @Override
-            public void run()
-            {
-                synchronized (o1)
-                {
-                    try
-                    {
-                        sleep(1000);
+        synchronized (solution) {
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    synchronized (o2) {
+                        try {
+                            sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    catch (InterruptedException e){}
                 }
-            }
-        };
-        Thread thread2 = new Thread()
-        {
-            public void run()
-            {
-                synchronized (o2)
-                {
-                    try
-                    {
-                        sleep(1000);
+            };
+            t1.start();
+
+            Thread t2 = new Thread() {
+                @Override
+                public void run() {
+                    synchronized (o1) {
+                        synchronized (o2) {
+                            solution.someMethodWithSynchronizedBlocks(o1, o2);
+                        }
                     }
-                    catch (InterruptedException e) {}
                 }
-            }
-        };
-        Thread thread3 = new Thread()
-        {
-            public void run()
-            {
-                solution.someMethodWithSynchronizedBlocks(o1, o2);
-            }
-        };
-        thread1.start(); //lock object o1
-        Thread.sleep(100);
-        thread2.start(); //lock object o2
-        Thread.sleep(100);
-        thread3.start(); //run check
-        Thread.sleep(100);
-        if (thread3.getState().equals(Thread.State.BLOCKED))
-        {
-            thread1.interrupt();
-            Thread.sleep(50);
-            if (thread3.getState().equals(Thread.State.TIMED_WAITING))
-            {
-                thread2.interrupt();
-                thread3.interrupt();
-                return true;
-            }
+            };
+            t2.start();
+
+            Thread.sleep(10);
+
+            System.out.println(Thread.State.BLOCKED.equals(t1.getState()));
+            return Thread.State.BLOCKED.equals(t1.getState());
         }
-        else
-        {
-            thread2.interrupt();
-            thread3.interrupt();
-        }
-        return false;
     }
 
     public static void main(String[] args) throws Exception {
