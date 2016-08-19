@@ -45,57 +45,54 @@ public class Solution {
         polygon.add(new Point(-4, 9));
 
         System.out.println("Should be true - "  + isPointInPolygon(new Point(4, 4), polygon));
-        System.out.println("Should be true - "  + isPointInPolygon(new Point(0, 0), polygon));
-        System.out.println("Should be true - "  + isPointInPolygon(new Point(7, 4), polygon));
+        System.out.println("Should be false - "  + isPointInPolygon(new Point(0, 0), polygon));
+        System.out.println("Should be false - "  + isPointInPolygon(new Point(7, 4), polygon));
     }
 
     public static boolean isPointInPolygon(Point point, List<Point> polygon) {
-        double sm1=0;
-        double sm2=0;
-        double sm;
-        double st=0;
 
-        for (int i = 0; i < polygon.size(); i++) {
-            Point point2;
-            Point point3;
+        Point a;
+        Point b;
+        int k = 1;
 
-            if (i == polygon.size()-1)
-            {
-                point2 = polygon.get(i);
-                point3 = polygon.get(0);
+        if (polygon.size() == 1) return point.x == polygon.get(0).x && point.y == polygon.get(0).y;
+        else {
+            for (int i = 0; i < polygon.size(); i++) {
+                if (i == polygon.size()-1){
+                    a = polygon.get(i);
+                    b = polygon.get(0);
+                }
+                else{
+                    a = polygon.get(i);
+                    b = polygon.get(i+1);
+                }
+
+                k *= check(a,b,point);
             }
-            else {
-                point2 = polygon.get(i);
-                point3 = polygon.get(i + 1);
-            }
-            sm1+=point2.x*point3.y;
-            sm2+=point2.y*point3.x;
-            st+=Math.abs((point.x-point3.x)*(point2.y-point3.y)-(point2.x-point3.x)*(point.y-point3.y))/2;
         }
 
-        sm = Math.abs(sm1-sm2)/2;
-
-        System.out.println(sm);
-
-        return sm==st;
+        return k<=0;
     }
 
-    public static int check(Point a, Point b, Point middle)
+    private static int check(Point a, Point b, Point middle)
     {
         long ax = a.x - middle.x;
         long ay = a.y - middle.y;
         long bx = b.x - middle.x;
         long by = b.y - middle.y;
+        if (ay * by > 0)
+            return 1;
         int s = Long.signum(ax * by - ay * bx);
-        if (s == 0 && (ay == 0 || by == 0) && ax * bx <= 0)
-            return 0;
-        if (ay < 0 ^ by < 0)
+        if (s == 0)
         {
-            if (by < 0)
-                return s;
-            return -s;
+            if (ax * bx <= 0)
+                return 0;
+            return 1;
         }
+        if (ay < 0)
+            return -s;
+        if (by < 0)
+            return s;
         return 1;
     }
-
 }
