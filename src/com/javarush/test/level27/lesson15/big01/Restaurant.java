@@ -12,7 +12,7 @@ public class Restaurant
     {
         //new Tablet(5).createOrder();
 
-        Cook cook = new Cook("BAmigo1");
+        Cook cook = new Cook("Amigo1");
         Waitor waitor = new Waitor();
         Tablet tablet = new Tablet(5);
         tablet.addObserver(cook);
