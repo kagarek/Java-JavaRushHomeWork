@@ -1,4 +1,4 @@
-package Solved.level38.lesson06.task01;
+package solved.level38.lesson06.task01;
 
 /* Улучшения в Java 7 (try-with-resources)
 Перепиши реализации методов класса Solution.

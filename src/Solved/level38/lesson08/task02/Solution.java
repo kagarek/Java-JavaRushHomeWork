@@ -1,4 +1,4 @@
-package Solved.level38.lesson08.task02;
+package solved.level38.lesson08.task02;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

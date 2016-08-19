@@ -1,4 +1,4 @@
-package Solved.level38.lesson08.task01;
+package solved.level38.lesson08.task01;
 
 /* Предопределенные типы аннотаций (Predefined Annotation Types)
 Расставьте в этом классе, везде где только можно, все возможные предопределенные в Java аннотации.

@@ -1,4 +1,4 @@
-package Solved.level38.lesson04.task02;
+package solved.level38.lesson04.task02;
 
 /* Непроверяемые исключения (unchecked exception)
 Напиши реализацию метода methodThrowsClassCastException(). Он должен

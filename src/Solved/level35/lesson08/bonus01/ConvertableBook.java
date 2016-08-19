@@ -1,4 +1,4 @@
-package Solved.level35.lesson08.bonus01;
+package solved.level35.lesson08.bonus01;
 
 public class ConvertableBook implements Convertable<String> {
     private String name;

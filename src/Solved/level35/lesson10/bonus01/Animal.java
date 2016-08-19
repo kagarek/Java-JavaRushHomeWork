@@ -1,4 +1,4 @@
-package Solved.level35.lesson10.bonus01;
+package solved.level35.lesson10.bonus01;
 
 public interface Animal {
 }

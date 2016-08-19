@@ -1,4 +1,4 @@
-package Solved.level38.lesson10.home01;
+package solved.level38.lesson10.home01;
 
 import java.lang.reflect.Field;
 

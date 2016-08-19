@@ -1,4 +1,4 @@
-package Solved.level38.lesson06.home02;
+package solved.level38.lesson06.home02;
 
 public class ConnectionMock implements Connection {
     @Override

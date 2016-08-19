@@ -1,4 +1,4 @@
-package Solved.level38.lesson10.home02;
+package solved.level38.lesson10.home02;
 
 /* Реализуй аннотации
 Проект должен компилироваться и выводить аннотацию класса Solution.

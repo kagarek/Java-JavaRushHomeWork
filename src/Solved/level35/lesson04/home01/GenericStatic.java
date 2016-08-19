@@ -1,4 +1,4 @@
-package Solved.level35.lesson04.home01;
+package solved.level35.lesson04.home01;
 
 public class GenericStatic {
     public static <Number> Number someStaticMethod(Object genericObject) {
