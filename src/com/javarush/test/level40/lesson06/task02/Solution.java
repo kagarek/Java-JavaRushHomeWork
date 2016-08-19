@@ -5,6 +5,9 @@ package com.javarush.test.level40.lesson06.task02;
 Ребра многоугольника не пересекаются.
 Необходимо реализовать метод isPointInPolygon(Point point, List<Point> polygon), который проверит,
 принадлежит ли переданная точка многоугольнику.
+
+http://ru.wikihow.com/найти-площадь-многоугольника
+https://otvet.mail.ru/question/53194356
 */
 
 import java.util.ArrayList;
@@ -23,13 +26,23 @@ class Point {
 public class Solution {
     public static void main(String[] args) {
         List<Point> polygon = new ArrayList<>();
-        polygon.add(new Point(0, 0));
-        polygon.add(new Point(0, 10));
-        polygon.add(new Point(10, 10));
-        polygon.add(new Point(10, 0));
+//        polygon.add(new Point(0, 0));
+//        polygon.add(new Point(0, 10));
+//        polygon.add(new Point(10, 10));
+//        polygon.add(new Point(10, 0));
 
-        System.out.println(isPointInPolygon(new Point(5, 5), polygon));
-        System.out.println(isPointInPolygon(new Point(100, 100), polygon));
+//        System.out.println(isPointInPolygon(new Point(5, 5), polygon));
+//        System.out.println(isPointInPolygon(new Point(100, 100), polygon));
+
+        polygon.add(new Point(-3, -2));
+        polygon.add(new Point(-1, 4));
+        polygon.add(new Point(6, 1));
+        polygon.add(new Point(3, 10));
+        polygon.add(new Point(-4, 9));
+
+        System.out.println(isPointInPolygon(new Point(4, 4), polygon));
+        System.out.println(isPointInPolygon(new Point(0, 0), polygon));
+        System.out.println(isPointInPolygon(new Point(7, 4), polygon));
     }
 
     public static boolean isPointInPolygon(Point point, List<Point> polygon) {
@@ -57,6 +70,8 @@ public class Solution {
         }
 
         sm = Math.abs(sm1-sm2)/2;
+
+        System.out.println(sm);
 
         return sm==st;
     }
