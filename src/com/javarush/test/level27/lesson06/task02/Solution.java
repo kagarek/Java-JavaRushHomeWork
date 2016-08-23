@@ -29,38 +29,41 @@ public class Solution {
 
     public static boolean isNormalLockOrder(final Solution solution, final Object o1, final Object o2) throws Exception {
 
-        synchronized (solution) {
-            Thread t1 = new Thread() {
-                @Override
-                public void run() {
-                    synchronized (o2) {
-                        try {
-                            sleep(10000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            };
-            t1.start();
+        if (o1.hashCode() == o2.hashCode()) return true;
+        return o1.hashCode() > o2.hashCode();
 
-            Thread t2 = new Thread() {
-                @Override
-                public void run() {
-                    synchronized (o1) {
-                        synchronized (o2) {
-                            solution.someMethodWithSynchronizedBlocks(o1, o2);
-                        }
-                    }
-                }
-            };
-            t2.start();
-
-            Thread.sleep(10);
-
-            System.out.println(Thread.State.BLOCKED.equals(t1.getState()));
-            return Thread.State.BLOCKED.equals(t1.getState());
-        }
+//        synchronized (solution) {
+//            Thread t1 = new Thread() {
+//                @Override
+//                public void run() {
+//                    synchronized (o2) {
+//                        try {
+//                            sleep(10000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            };
+//            t1.start();
+//
+//            Thread t2 = new Thread() {
+//                @Override
+//                public void run() {
+//                    synchronized (o1) {
+//                        synchronized (o2) {
+//                            solution.someMethodWithSynchronizedBlocks(o1, o2);
+//                        }
+//                    }
+//                }
+//            };
+//            t2.start();
+//
+//            Thread.sleep(10);
+//
+//            System.out.println(Thread.State.BLOCKED.equals(t1.getState()));
+//            return Thread.State.BLOCKED.equals(t1.getState());
+//        }
     }
 
     public static void main(String[] args) throws Exception {
