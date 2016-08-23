@@ -43,6 +43,7 @@ AM или PM: 1
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Solution {
@@ -58,35 +59,52 @@ public class Solution {
         //напишите тут ваш код
         DateFormat df;
         Date d;
-
+        Calendar calendar = Calendar.getInstance();
         try {
             if (date.indexOf(" ") > 0) {
-                df = new SimpleDateFormat("dd.m.yyyy HH:mm:ss");
+                df = new SimpleDateFormat("dd.M.yyyy HH:mm:ss");
                 d = df.parse(date);
-                System.out.println("День: "+new SimpleDateFormat("d").format(d));//День: 21
-                System.out.println("День недели: "+new SimpleDateFormat("F").format(d));//День недели: 2
-                System.out.println("День месяца: "+new SimpleDateFormat("d").format(d));//День месяца: 21
-                System.out.println("День года: "+new SimpleDateFormat("").format(d));//День года: 111
-                System.out.println("Неделя месяца: "+new SimpleDateFormat("W").format(d));//Неделя месяца: 4
-                System.out.println("Неделя года: "+new SimpleDateFormat("w").format(d));//Неделя года: 17
-                System.out.println("Месяц: "+new SimpleDateFormat("M").format(d));//Месяц: 3
-                System.out.println("Год: "+new SimpleDateFormat("yyyy").format(d));//Год: 2014
-                System.out.println("Эра: "+new SimpleDateFormat("G").format(d));//Эра: 1
-                System.out.println("AM или PM: "+new SimpleDateFormat("a").format(d));//AM или PM: 1
-                System.out.println("Часы: "+new SimpleDateFormat("h").format(d));//Часы: 3
-                System.out.println("Часы дня: "+new SimpleDateFormat("H").format(d));//Часы дня: 15
-                System.out.println("Минуты: "+new SimpleDateFormat("m").format(d));//Минуты: 56
-                System.out.println("Секунды: "+new SimpleDateFormat("s").format(d));//Секунды: 45
+                calendar.setTime(d);
+                System.out.println("День: "+calendar.get(Calendar.DATE));//День: 21
+                System.out.println("День недели: "+calendar.get(Calendar.DAY_OF_WEEK));//День недели: 2
+                System.out.println("День месяца: "+calendar.get(Calendar.DAY_OF_MONTH));//День месяца: 21
+                System.out.println("День года: "+calendar.get(Calendar.DAY_OF_YEAR));//День года: 111
+                System.out.println("Неделя месяца: "+calendar.get(Calendar.WEEK_OF_MONTH));//Неделя месяца: 4
+                System.out.println("Неделя года: "+calendar.get(Calendar.WEEK_OF_YEAR));//Неделя года: 17
+                System.out.println("Месяц: "+calendar.get(Calendar.MONTH));//Месяц: 3
+                System.out.println("Год: "+calendar.get(Calendar.YEAR));//Год: 2014
+                System.out.println("Эра: "+calendar.get(Calendar.ERA));//Эра: 1
+                System.out.println("AM или PM: "+calendar.get(Calendar.AM_PM));//AM или PM: 1
+                System.out.println("Часы: "+calendar.get(Calendar.HOUR));//Часы: 3
+                System.out.println("Часы дня: "+calendar.get(Calendar.HOUR_OF_DAY));//Часы дня: 15
+                System.out.println("Минуты: "+calendar.get(Calendar.MINUTE));//Минуты: 56
+                System.out.println("Секунды: "+calendar.get(Calendar.SECOND));//Секунды: 45
             }
             else
                 if (date.indexOf(".") > 0) {
-                    df = new SimpleDateFormat("dd.m.yyyy");
+                    df = new SimpleDateFormat("dd.M.yyyy");
                     d = df.parse(date);
+                    calendar.setTime(d);
+                    System.out.println("День: "+calendar.get(Calendar.DATE));//День: 21
+                    System.out.println("День недели: "+calendar.get(Calendar.DAY_OF_WEEK));//День недели: 2
+                    System.out.println("День месяца: "+calendar.get(Calendar.DAY_OF_MONTH));//День месяца: 21
+                    System.out.println("День года: "+calendar.get(Calendar.DAY_OF_YEAR));//День года: 111
+                    System.out.println("Неделя месяца: "+calendar.get(Calendar.WEEK_OF_MONTH));//Неделя месяца: 4
+                    System.out.println("Неделя года: "+calendar.get(Calendar.WEEK_OF_YEAR));//Неделя года: 17
+                    System.out.println("Месяц: "+calendar.get(Calendar.MONTH));//Месяц: 3
+                    System.out.println("Год: "+calendar.get(Calendar.YEAR));//Год: 2014
+                    System.out.println("Эра: "+calendar.get(Calendar.ERA));//Эра: 1
                 }
                 else
                     if (date.indexOf(":") > 0) {
                         df = new SimpleDateFormat("HH:mm:ss");
                         d = df.parse(date);
+                        calendar.setTime(d);
+                        System.out.println("AM или PM: "+calendar.get(Calendar.AM_PM));//AM или PM: 1
+                        System.out.println("Часы: "+calendar.get(Calendar.HOUR));//Часы: 3
+                        System.out.println("Часы дня: "+calendar.get(Calendar.HOUR_OF_DAY));//Часы дня: 15
+                        System.out.println("Минуты: "+calendar.get(Calendar.MINUTE));//Минуты: 56
+                        System.out.println("Секунды: "+calendar.get(Calendar.SECOND));//Секунды: 45
                     }
         }
         catch (ParseException e) {
