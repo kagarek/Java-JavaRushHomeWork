@@ -50,58 +50,68 @@ public class StatisticManager
         public Map<EventType, List<EventDataRow>> getMap() { return map; }
     }
 
-    public Map<String,Double> getAdvertisementProfitByDate()
+    public Map<Date,Double> getAdvertisementProfitByDate()
     {
-        Map<String,Double> result = new HashMap<>();
+        Map<Date,Double> result = new HashMap<>();
         List<EventDataRow> dataRows = statisticStorage.getMap().get(EventType.SELECTED_VIDEOS);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 
         for (EventDataRow e : dataRows)
         {
             VideoSelectedEventDataRow tmp = (VideoSelectedEventDataRow) e;
             Double amount = tmp.getAmount() * 1d /100;
-            Date currentDate = tmp.getDate();
-            String formattedDate = sdf.format(currentDate);
 
-            if (!result.containsKey(formattedDate))
-                result.put(formattedDate, amount);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(tmp.getDate());
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            Date currentDate = cal.getTime();
+
+            if (!result.containsKey(currentDate))
+                result.put(currentDate, amount);
             else
-                result.put(formattedDate, result.get(formattedDate)+amount);
+                result.put(currentDate, result.get(currentDate)+amount);
         }
 
         return result;
     }
 
-    public Map<String, Map<String,Integer>> getCookWorkloadingByDate() {
-        Map<String,Map<String,Integer>> outerResultMap = new HashMap<>();
+    public Map<Date, Map<String,Integer>> getCookWorkloadingByDate() {
+        Map<Date,Map<String,Integer>> outerResultMap = new HashMap<>();
         List<EventDataRow> dataRows = statisticStorage.getMap().get(EventType.COOKED_ORDER);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 
         for (EventDataRow e : dataRows)
         {
             CookedOrderEventDataRow tmp = (CookedOrderEventDataRow) e;
             String cookName = tmp.getCookName();
             int cookTime = tmp.getTime();
-            Date currentDate = tmp.getDate();
-            String formattedDate = sdf.format(currentDate);
 
-            if (!outerResultMap.containsKey(formattedDate))
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(tmp.getDate());
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            Date currentDate = cal.getTime();
+
+            if (!outerResultMap.containsKey(currentDate))
             {
                 Map <String, Integer> innerCookMap = new HashMap<>();
                 innerCookMap.put(cookName, cookTime);
-                outerResultMap.put(formattedDate, innerCookMap);
+                outerResultMap.put(currentDate, innerCookMap);
             }
             else
             {
-                if (!outerResultMap.get(formattedDate).containsKey(cookName))
+                if (!outerResultMap.get(currentDate).containsKey(cookName))
                 {
                     Map <String, Integer> innerCookMap = new HashMap<>();
                     innerCookMap.put(cookName, cookTime);
-                    outerResultMap.put(formattedDate, innerCookMap);
+                    outerResultMap.put(currentDate, innerCookMap);
                 }
                 else
                 {
-                    Map <String, Integer> innerCookMap = outerResultMap.get(formattedDate);
+                    Map <String, Integer> innerCookMap = outerResultMap.get(currentDate);
                     innerCookMap.put(cookName, innerCookMap.get(cookName) + cookTime);
                 }
             }

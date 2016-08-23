@@ -28,13 +28,15 @@ public class Restaurant
 
         tablet.createOrder();
 
+        //во время второго заказа переводишь системное время на день вперед\назад.
         tablet.deleteObserver(cook1);
         tablet.addObserver(cook2);
-        tablet.createOrder(); //во время второго заказа переводишь системное время на день вперед\назад.
+        tablet.createOrder();
 
-        tablet.deleteObserver(cook2);
-        tablet.addObserver(cook3);
-        tablet.createOrder(); //во время второго заказа переводишь системное время на день вперед\назад.
+        //во время третьего заказа переводишь системное время на день вперед\назад.
+//        tablet.deleteObserver(cook2);
+//        tablet.addObserver(cook3);
+//        tablet.createOrder();
 
         directorTablet.printAdvertisementProfit();
         directorTablet.printCookWorkloading();

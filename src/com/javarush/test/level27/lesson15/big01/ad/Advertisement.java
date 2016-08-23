@@ -41,12 +41,16 @@ public class Advertisement
 
     public void revalidate()
     {
-        if (hits <= 0)
-            throw new UnsupportedOperationException();
-        else {
-            hits--;
-            initialAmount -= amountPerOneDisplaying;
-            amountPerOneDisplaying = (hits == 0) ? amountPerOneDisplaying : (initialAmount / hits + (initialAmount % hits > 0 ? 1 : 0));
-        }
+        if (hits <= 0) throw new UnsupportedOperationException();
+        hits--;
+        if (hits == 1) amountPerOneDisplaying += initialAmount % amountPerOneDisplaying;
+
+//        if (hits <= 0)
+//            throw new UnsupportedOperationException();
+//        else {
+//            hits--;
+//            initialAmount -= amountPerOneDisplaying;
+//            amountPerOneDisplaying = (hits == 0) ? amountPerOneDisplaying : (initialAmount / hits + (initialAmount % hits > 0 ? 1 : 0));
+//        }
     }
 }
