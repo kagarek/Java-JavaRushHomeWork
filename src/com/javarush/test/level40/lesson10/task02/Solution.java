@@ -115,6 +115,6 @@ public class Solution {
                 System.out.println("Секунды: " + dt.getSecondOfMinute());
             }
         }
-        catch (IllegalArgumentException e){}
+        catch (Exception e){}
     }
 }
