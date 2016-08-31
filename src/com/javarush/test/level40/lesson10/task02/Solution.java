@@ -46,6 +46,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.ParseException;
+import java.util.Locale;
 
 public class Solution {
     public static void main(String[] args) {
@@ -57,37 +58,63 @@ public class Solution {
     }
 
     public static void printDate(String date) {
-        DateTime dt;
-        DateTimeFormatter formatter;
-        if (date.indexOf(" ") > 0) {
-            formatter = DateTimeFormat.forPattern("dd.M.yyyy HH:mm:ss");
-            dt = formatter.parseDateTime(date);
-            System.out.println("День: "+dt.dayOfMonth().get());//День: 21
-            System.out.println("День недели: "+dt.dayOfWeek().get());//День недели: 2
-            System.out.println("День месяца: "+dt.dayOfMonth().get());//День месяца: 21
-            System.out.println("День года: "+dt.dayOfYear().get());//День года: 111
-            System.out.println("Неделя месяца: "+ "no data");//Неделя месяца: 4
-            System.out.println("Неделя года: "+dt.weekOfWeekyear().get());//Неделя года: 17
-            System.out.println("Месяц: "+dt.monthOfYear().get());//Месяц: 3
-            System.out.println("Год: "+dt.year().get());//Год: 2014
-            System.out.println("Эра: "+dt.era().get());//Эра: 1
-            System.out.println("AM или PM: "+ "no data");//AM или PM: 1
-            System.out.println("Часы: "+(dt.hourOfDay().get()-12));//Часы: 3
-            System.out.println("Часы дня: "+dt.hourOfDay().get());//Часы дня: 15
-            System.out.println("Минуты: "+dt.minuteOfHour().get());//Минуты: 56
-            System.out.println("Секунды: "+dt.secondOfMinute().get());//Секунды: 45
-        }
-        else
-        if (date.indexOf(".") > 0) {
-            formatter = DateTimeFormat.forPattern("dd.M.yyyy");
-            dt = formatter.parseDateTime(date);
+        try {
+            DateTime dt = null;
+            DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd.M.yyyy HH:mm:ss");
+            DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("dd.M.yyyy");
+            DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm:ss");
 
-        }
-        else
-        if (date.indexOf(":") > 0) {
-            formatter = DateTimeFormat.forPattern("HH:mm:ss");
-            dt = formatter.parseDateTime(date);
+            boolean containsDate = false;
+            boolean containsTime = false;
 
+            if (date.contains(" ")) {
+                containsDate = true;
+                containsTime = true;
+                dt = dateTimeFormatter.parseDateTime(date);
+            } else {
+                if (date.contains(".")) {
+                    containsDate = true;
+                    dt = dateFormatter.parseDateTime(date);
+                } else {
+                    if (date.contains(":")) {
+                        containsTime = true;
+                        dt = timeFormatter.parseDateTime(date);
+                    }
+                }
+            }
+
+            DateTime minYearDate = dt.dayOfYear().withMinimumValue();
+            DateTime minMonthDate = dt.dayOfMonth().withMinimumValue();
+            int weekDis = (minYearDate.getWeekyear() == dt.getYear()) ? 0 : 1;
+            int weekOfYear = dt.getWeekOfWeekyear() + weekDis;
+            if (weekOfYear > 52)
+                weekOfYear = 1;
+            int weekOfMonth = dt.getWeekOfWeekyear() - minMonthDate.getWeekOfWeekyear() + 1;
+            if (minMonthDate.getWeekOfWeekyear() >= dt.getWeekOfWeekyear())
+                weekOfMonth = dt.minusDays(7).getWeekOfWeekyear() - minMonthDate.getWeekOfWeekyear() + 2;
+            if (dt.getMonthOfYear() == 1)
+                weekOfMonth = weekOfYear;
+
+            if (containsDate) {
+                System.out.println("День: " + dt.getDayOfMonth());
+                System.out.println("День недели: " + dt.getDayOfWeek());
+                System.out.println("День месяца: " + dt.getDayOfMonth());
+                System.out.println("День года: " + dt.getDayOfYear());
+                System.out.println("Неделя месяца: " + weekOfMonth);
+                System.out.println("Неделя года: " + weekOfYear);
+                System.out.println("Месяц: " + dt.getMonthOfYear());
+                System.out.println("Год: " + dt.getYear());
+                System.out.println("Эра: " + dt.getEra());
+            }
+
+            if (containsTime) {
+                System.out.println("AM или PM: " + ((dt.getHourOfDay() >= 12) ? 1 : 0));
+                System.out.println("Часы: " + (dt.getHourOfDay() % 12));
+                System.out.println("Часы дня: " + dt.getHourOfDay());
+                System.out.println("Минуты: " + dt.getMinuteOfHour());
+                System.out.println("Секунды: " + dt.getSecondOfMinute());
+            }
         }
+        catch (IllegalArgumentException e){}
     }
 }
